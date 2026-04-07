@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>VIHANG CLUB — PROJECTS</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--gold:#ffb000;--gold2:#ffd055;--gold-dim:rgba(255,176,0,0.12);--bg:#050400;--bg2:#0a0800;--bg3:#111000;--text:#f0ead8;--text-muted:#bdb49a;--text-dim:#706050;--border:rgba(255,176,0,0.12);--font-display:'Bebas Neue',sans-serif;--font-hud:'Orbitron',monospace;--font-mono:'Share Tech Mono',monospace;--font-body:'Rajdhani',sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}body{background:var(--bg);color:var(--text);font-family:var(--font-body);overflow-x:hidden;text-transform:uppercase}
+a{text-decoration:none;color:inherit}button{cursor:pointer;font-family:inherit;border:none;background:none;text-transform:uppercase}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}.fade-in.visible{opacity:1;transform:none}
+.container{max-width:1400px;margin:0 auto;padding:0 4rem}
+@media(max-width:768px){.container{padding:0 1.5rem}}
+.section-label{font-family:var(--font-mono);font-size:.56rem;letter-spacing:.3em;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:.8rem}
+.section-label::after{content:'';display:block;height:1px;width:50px;background:var(--gold);opacity:.5}
+.section-title{font-family:var(--font-display);font-size:clamp(3rem,7vw,6.5rem);line-height:.88;letter-spacing:.04em}
+.section-title .accent{color:var(--gold)}
+.btn-secondary{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--gold);padding:.85rem 2rem;border:1px solid rgba(255,176,0,.35);transition:all .2s;display:inline-block}
+.btn-secondary:hover{background:rgba(255,176,0,.06);border-color:var(--gold);transform:translateY(-2px)}
+.section-header-row{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1.5rem}
+.mt-3{margin-top:3rem}
+#projects{padding:7rem 0;background:var(--bg)}
+.filter-bar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:3rem}
+.filter-btn{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.18em;padding:.55rem 1.2rem;border:1px solid var(--border);color:var(--text-dim);transition:all .2s}
+.filter-btn.active,.filter-btn:hover{color:var(--gold);border-color:rgba(255,176,0,.4);background:rgba(255,176,0,.07)}
+.filter-btn.active{color:var(--bg);background:var(--gold);border-color:var(--gold)}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+.project-card{background:var(--bg3);padding:2rem;transition:all .3s;cursor:pointer;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.project-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,176,0,.06),transparent);opacity:0;transition:.3s}
+.project-card:hover{background:#181500}
+.project-card:hover::before{opacity:1}
+.project-thumb{width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#0a0800,var(--bg3));border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin-bottom:1.2rem}
+.project-status{display:inline-flex;align-items:center;gap:.4rem;margin-bottom:.6rem}
+.status-dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.status-complete .status-dot{background:#4af;border-radius:0}
+.status-complete .status-text{color:#4af}
+.status-active .status-dot{background:#00ff88}
+.status-active .status-text{color:#00ff88}
+.status-text{font-family:var(--font-mono);font-size:.5rem;letter-spacing:.15em}
+.project-idx{font-family:var(--font-mono);font-size:.52rem;letter-spacing:.2em;color:var(--gold);margin-bottom:.4rem}
+.project-name{font-family:var(--font-display);font-size:2rem;letter-spacing:.05em;color:var(--text);margin-bottom:.7rem;line-height:1}
+.project-desc{font-family:var(--font-body);font-size:.88rem;font-weight:300;color:var(--text-muted);line-height:1.7;flex:1;margin-bottom:1.5rem}
+.project-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.tag{font-family:var(--font-mono);font-size:.48rem;letter-spacing:.15em;color:var(--gold);background:rgba(255,176,0,.06);border:1px solid var(--border);padding:.2rem .5rem}
+.project-link{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.15em;color:var(--text-dim);transition:all .2s}
+.project-card:hover .project-link{color:var(--gold)}
+.project-hidden{display:none}
+
+/* Update .project-thumb — add overflow:hidden */
+.project-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;        /* ← this is the key addition */
+  border: 1px solid var(--border);
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Add this new rule for images inside the thumb */
+.project-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       /* fills 16/9, crops neatly */
+  object-position: center;
+  display: block;
+}
+/* ───── NAV ───── */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:1.6rem 4rem;transition:all .4s;}
+nav.scrolled{padding:.9rem 4rem;background:rgba(5,4,0,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-logo{display:flex;align-items:center;gap:.7rem;text-decoration:none}
+.nav-logo-icon{width:28px;height:28px;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;position:relative;}
+.nav-logo-icon::after{content:'';position:absolute;inset:3px;background:var(--gold);clip-path:polygon(50% 0,100% 100%,0 100%);animation:pulseLogo 3s ease-in-out infinite;}
+@keyframes pulseLogo{0%,100%{opacity:1}50%{opacity:.6}}
+.nav-logo-text{font-family:var(--font-hud);font-size:1.2rem;font-weight:700;letter-spacing:.2em;color:var(--text);}
+.nav-logo-text span{color:var(--gold)}
+.nav-links{display:flex;background:var(--gold-dim);border:1px solid var(--border);}
+.nav-links a{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.18em;padding:.6rem 1.1rem;border-right:1px solid var(--border);color:var(--text-dim);transition:all .2s;display:block;}
+.nav-links a:last-child{border-right:none}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);background:rgba(255,176,0,.06)}
+.nav-cta{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.18em;color:var(--bg);background:var(--gold);padding:.55rem 1.2rem;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));transition:all .2s;}
+.nav-cta:hover{background:var(--gold2);transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:4px;cursor:pointer;background:none;border:none;}
+.hamburger span{width:22px;height:1.5px;background:var(--gold);display:block;transition:all .3s;}
+.mobile-nav{display:none;position:fixed;top:60px;left:0;right:0;background:rgba(5,4,0,.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);flex-direction:column;z-index:899;}
+.mobile-nav a{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.18em;padding:.8rem 1.5rem;border-bottom:1px solid rgba(255,176,0,.05);color:var(--text-dim);transition:all .2s;display:block;}
+.mobile-nav a:hover{color:var(--gold);background:rgba(255,176,0,.06)}
+.mobile-nav .nav-cta{margin:1rem 1.5rem 1.5rem;display:block;text-align:center;padding:.8rem;}
+@media(max-width:900px){nav{padding:1rem 1.5rem}nav.scrolled{padding:.8rem 1.5rem}.nav-links,.nav-cta-wrap{display:none}.hamburger{display:flex}.mobile-nav.open{display:flex}}
+/* page top padding for fixed nav */
+body>section:first-of-type, body>div:first-of-type{padding-top:0}
+section{scroll-margin-top:80px}
+
+
+/* ───── FOOTER ───── */
+footer{background:var(--bg);border-top:1px solid var(--border)}
+.footer-inner{padding:5rem 0 0}
+.footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:3rem;padding-bottom:4rem}
+.footer-brand .nav-logo{margin-bottom:1.5rem;display:inline-flex}
+.footer-desc{font-family:var(--font-mono);font-size:.72rem;color:var(--text-dim);line-height:1.7;margin-bottom:1.5rem}
+.social-links{display:flex;gap:.6rem}
+.social-link{width:36px;height:36px;border:1px solid rgba(255,176,0,.2);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:.48rem;letter-spacing:.05em;color:var(--text-dim);transition:all .2s;}
+.social-link:hover{color:var(--gold);border-color:var(--gold);background:rgba(255,176,0,.06)}
+.footer-heading{font-family:var(--font-mono);font-size:.58rem;font-weight:700;letter-spacing:.25em;color:var(--gold);margin-bottom:1.5rem;}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:.7rem}
+.footer-links a{font-family:var(--font-mono);font-size:.7rem;color:var(--text-dim);transition:color .2s;}
+.footer-links a:hover{color:var(--gold)}
+.contact-item{display:flex;align-items:flex-start;gap:.8rem;margin-bottom:1rem}
+.contact-label{font-family:var(--font-mono);font-size:.48rem;color:var(--gold);margin-top:.1rem;min-width:2rem}
+.contact-text{font-family:var(--font-mono);font-size:.7rem;color:var(--text-dim);line-height:1.5}
+.contact-text a{color:var(--text-dim);transition:color .2s}
+.contact-text a:hover{color:var(--gold)}
+.affil-card{padding:1rem;border:1px solid var(--border);background:var(--bg3);margin-bottom:.8rem;}
+.affil-label{font-family:var(--font-mono);font-size:.48rem;letter-spacing:.15em;color:var(--gold);display:block;margin-bottom:.2rem}
+.affil-text{font-family:var(--font-mono);font-size:.7rem;color:var(--text-muted)}
+.footer-bottom{border-top:1px solid var(--border);padding:1.5rem 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-copy{font-family:var(--font-mono);font-size:.58rem;color:#4a3d2a}
+.footer-tagline{font-family:var(--font-mono);font-size:.52rem;letter-spacing:.3em;color:var(--gold)}
+@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;gap:2rem}}
+@media(max-width:600px){.footer-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}}
+
+</style>
+</head>
+<body>
+<!-- ═══════════════ NAV ═══════════════ -->
+<nav id="navbar">
+  <a href="http://127.0.0.1:5500/hero.html" class="nav-logo">
+    <div class="nav-logo-icon"></div>
+    <span class="nav-logo-text">VIH<span>A</span>NG CLUB</span>
+  </a>
+  <div class="nav-links">
+    <a href="http://127.0.0.1:5500/about.html">ABOUT</a>
+    <a href="http://127.0.0.1:5500/projects.html">PROJECTS</a>
+    <a href="http://127.0.0.1:5500/documentation.html">DOCUMENTATION</a>
+    <a href="http://127.0.0.1:5500/achievements.html">ACHIEVEMENTS</a>
+    <a href="http://127.0.0.1:5500/internship.html">PLACEMENTS AND INTERNSHIPS</a>
+    <a href="http://127.0.0.1:5500/team.html">TEAM</a>
+    <a href="http://127.0.0.1:5500/gallery.html">GALLERY</a>
+    <a href="http://127.0.0.1:5500/contact.html">CONTACT</a>
+  </div>
+  
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+   <a href="http://127.0.0.1:5500/about.html" onclick="closeMobile()">ABOUT</a>
+  <a href="http://127.0.0.1:5500/projects.html" onclick="closeMobile()">PROJECTS</a>
+  <a href="http://127.0.0.1:5500/documentation.html" onclick="closeMobile()">DOCUMENTATION</a>
+  <a href="http://127.0.0.1:5500/achievements.html" onclick="closeMobile()">ACHIEVEMENTS</a>
+  <a href="http://127.0.0.1:5500/internship.html" onclick="closeMobile()">PLACEMENTS AND INTERNSHIPS</a>
+  <a href="http://127.0.0.1:5500/team.html" onclick="closeMobile()">TEAM</a>
+  <a href="http://127.0.0.1:5500/gallery.html" onclick="closeMobile()">IN THE FIELD</a>
+  <a href="http://127.0.0.1:5500/contact.html" onclick="closeMobile()">CONTACT</a>
+  <a href="https://forms.gle/pg4QRuGdMAZSpAg4A" target="_blank" class="nav-cta">JOIN NOW →</a>
+</div>
+
+<section id="projects">
+  <div class="container">
+    <div class="section-header-row fade-in">
+      <div>
+        <p class="section-label">02 / PROJECTS</p>
+        <h2 class="section-title">WHAT WE<br><span class="accent">BUILD</span></h2>
+      </div>
+      <a href="./Dcoment PDF/project_name.pdf" class="btn-secondary">VIEW ALL PROJECTS →</a>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar mt-3">
+      <button class="filter-btn active" onclick="filterProjects('all',this)">ALL PROJECTS</button>
+      <button class="filter-btn" onclick="filterProjects('active',this)">ACTIVE</button>
+      <button class="filter-btn" onclick="filterProjects('research',this)">RESEARCH</button>
+      <button class="filter-btn" onclick="filterProjects('complete',this)">COMPLETE</button>
+    </div>
+
+    <div class="projects-grid" id="projectsGrid">
+        <div class="project-card" data-status="active">
+        <div class="project-thumb"> <img src="your-image.jpg" alt="Project screenshot"></div>
+        <div class="project-status status-active"><span class="status-dot"></span><span class="status-text">ACTIVE</span></div>
+        <p class="project-idx">// PROJECT-26</p>
+        <h3 class="project-name">DRONE RIG   </h3>
+        <p class="project-desc">A DRONE RIG IS A STRUCTURED SETUP OF HARDWARE AND COMPONENTS (FRAME, MOTORS, CONTROLLERS, AND SENSORS) ASSEMBLED TO BUILD AND OPERATE A DRONE EFFICIENTLY.</p>
+        <div class="project-tags"><span class="tag">FLIGHT FRAME</span><span class="tag">HARDWARE INTEGRATION</span><span class="tag">CONTROL SYSTEM    </span></div>
+        <span class="project-link">READ REPORT →</span>
+      </div>
+       <div class="project-card" data-status="active">
+<div class="project-thumb"> <img src="your-image.jpg" alt="Project screenshot"></div>  
+        <div class="project-status status-active"><span class="status-dot"></span><span class="status-text">ACTIVE</span></div>
+        <p class="project-idx">// PROJECT-27</p>
+        <h3 class="project-name">CUSTOM FLIGHT CONTROLLER   </h3>
+        <p class="project-desc">A CUSTOM FLIGHT CONTROLLER IS A DESIGNED CIRCUIT BOARD THAT MANAGES DRONE STABILITY, SENSOR DATA, AND FLIGHT OPERATIONS BASED ON USER REQUIREMENTS.</p>
+        <div class="project-tags"><span class="tag">FLIGHT CONTROL</span><span class="tag"> SENSOR INTEGRATION</span><span class="tag">EMBEDDED SYSTEM </span></div>
+        <span class="project-link">READ REPORT →</span>
+      </div>
+       <div class="project-card" data-status="active">
+        <div class="project-thumb"><img src="" alt="Project screenshot"></div>
+        <div class="project-status status-active"><span class="status-dot"></span><span class="status-text">ACTIVE</span></div>
+        <p class="project-idx">// PROJECT-28</p>
+        <h3 class="project-name">TESSERACT GCS   </h3>
+        <p class="project-desc">TESSERACT GCS IS A GROUND CONTROL STATION SOFTWARE USED TO MONITOR, CONTROL, AND ANALYZE DRONE MISSIONS IN REAL TIME. </p>
+        <div class="project-tags"><span class="tag">MISSION CONTROL</span><span class="tag">TELEMETRY</span><span class="tag">REAL-TIME MONITORING  </span></div>
+        <span class="project-link">READ REPORT →</span>
+      </div>
+      <div class="project-card" data-status="active">
+        <div class="project-thumb"> <img src="" alt="Project screenshot"></div>
+        <div class="project-status status-active"><span class="status-dot"></span><span class="status-text">ACTIVE</span></div>
+        <p class="project-idx">// PROJECT-29</p>
+        <h3 class="project-name">AVINYA AI (CHATBOT)   </h3>
+        <p class="project-desc">AVINYA AI IS AN INTELLIGENT CHATBOT SYSTEM DESIGNED TO INTERACT WITH USERS, PROVIDE INFORMATION, AND AUTOMATE RESPONSES USING AI TECHNOLOGY.  </p>
+        <div class="project-tags"><span class="tag">ARTIFICIAL INTELLIGENCE</span><span class="tag">NATURAL LANGUAGE PROCESSING</span><span class="tag">AUTOMATION </span></div>
+        <span class="project-link">READ REPORT →</span>
+      </div>
+       <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/project 1.jpg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-01</p>
+        <h3 class="project-name">MULTI-PURPOSE AGRICULTURE DRONE  </h3>
+        <p class="project-desc">HIGH-PERFORMANCE 5-INCH FPV RACING QUAD BUILT FOR SPEED, AGILITY, AND COMPETITION-GRADE PRECISION FLYING.</p>
+        <div class="project-tags"><span class="tag">PRECISION FARMING</span><span class="tag">SPRAY SYSTEM</span><span class="tag">AUTONOMOUS NAVIGATION  </span></div>
+      
+    <a href="./Dcoment_PDF/project_name.pdf" target="_blank" class="btn-secondary">
+      READ REPORT →
+    </a>
+       </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/Fpv.jpeg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-02</p>
+        <h3 class="project-name">FPV DRONE RACING </h3>
+        <p class="project-desc">AGRICULTURAL HEXACOPTER WITH 5L PAYLOAD TANK FOR PRECISION CROP SPRAY USING ARDUPILOT AUTO-WAYPOINTS.</p>
+        <div class="project-tags"><span class="tag">HIGH SPEED</span><span class="tag">REAL-TIME VIDEO</span><span class="tag">MANUAL CONTROL</span></div>
+        <a href="./Dcoment PDF/FPV drone racing.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+       <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/Recycle batteries.jpeg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-03</p>
+        <h3 class="project-name">RECYCLING OF LI-PO BATTERY</h3>
+        <p class="project-desc">AERODYNAMICS RESEARCH INTO LOOPED-TIP PROPELLER GEOMETRY — TARGETING -15 DB ACOUSTIC REDUCTION.</p>
+        <div class="project-tags"><span class="tag">BATTERY MANAGEMENT</span><span class="tag">RECYCLING</span><span class="tag">ENERGY STORAGE</span></div>
+        <a href="./Dcoment PDF/Recycling of li-po battery.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/Seed spreader.jpeg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-04</p>
+        <h3 class="project-name">SEED SPREADER </h3>
+        <p class="project-desc">AERIAL PHOTOGRAMMETRY AND GIS-INTEGRATED TERRAIN MAPPING USING CUSTOM UAV PLATFORMS.</p>
+        <div class="project-tags"><span class="tag">AGRICULTURE</span><span class="tag">DISPENSING SYSTEM</span><span class="tag">DRONE INTEGRATION </span></div>
+        <a href="./Dcoment PDF/Seed spreader.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+       <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/TOROIDAL PROPELLER.jpg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-05</p>
+        <h3 class="project-name">TOROIDAL PROPELLER  </h3>
+        <p class="project-desc">FIXED-WING RC AIRCRAFT FROM SCRATCH — FOAM-BOARD TRAINERS TO FULLY 3D-PRINTED AIRFRAME VARIANTS.</p>
+        <div class="project-tags"><span class="tag">AERODYNAMICS</span><span class="tag">NOISE REDUCTION</span><span class="tag">EFFICIENCY</span></div>
+       <a href="./Dcoment%20PDF/Toroidal%20propeller.pdf" target="_blank" class="project-link">
+  READ REPORT →
+</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/3D printed plane.jpg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-06</p>
+        <h3 class="project-name">3D PRINTED RC PLANE  </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+        <div class="project-tags"><span class="tag">3D PRINTING</span><span class="tag">LIGHTWEIGHT STRUCTURE</span><span class="tag">AEROMODELING </span></div>
+        <a href="./Dcoment PDF/3D printed RC plane.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/composite rc.jpeg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-07</p>
+        <h3 class="project-name">RC CAR COMPOSITE CHASSIS   </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+        <div class="project-tags"><span class="tag">COMPOSITE MATERIAL</span><span class="tag">STRENGTH</span><span class="tag">LIGHTWEIGHT</span></div>
+        <a href="./Dcoment PDF/RC Car (Composite Chassis).pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/metaclic rc.jpeg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-08</p>
+        <h3 class="project-name">RC CAR METALLIC CHASSIS   </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+<div class="project-tags"><span class="tag">METAL FRAME</span><span class="tag">DURABILITY</span><span class="tag">STRUCTURAL DESIGN</span></div>
+        <a href="./Dcoment PDF/RC Car (Metallic Chassis).pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/gimble.jpeg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-09</p>
+        <h3 class="project-name">GIMBAL  </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+  <div class="project-tags"><span class="tag">STABILIZATION</span><span class="tag">MOTION CONTROL</span><span class="tag">CAMERA SYSTEM</span></div>
+        <a href="./Dcoment PDF/Gimbal.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/aerial insight.jpeg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-10</p>
+        <h3 class="project-name">AERIAL INSIGHT   </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+       <div class="project-tags"><span class="tag">DATA ANALYSIS</span><span class="tag">AERIAL IMAGING</span><span class="tag">SURVEILLANCE</span></div>
+
+        <a href="./Dcoment PDF/Aerial Insight.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/RC Car (Composite Chassis).jpeg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-11</p>
+        <h3 class="project-name">RC CAR CHASSIS   </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+       <div class="project-tags"><span class="tag">MECHANICAL DESIGN</span><span class="tag">FRAMEWORK</span><span class="tag">MOBILITY</span></div>
+
+        <a href="./project img/RC Car (Composite Chassis).jpeg" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/Mini drone.jpeg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-12</p>
+        <h3 class="project-name">MINI DRONE   </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+        <div class="project-tags"><span class="tag">COMPACT DESIGN</span><span class="tag">FLIGHT CONTROL</span><span class="tag">PORTABILITY</span></div>
+
+        <a href="./Dcoment PDF/Mini Drone.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/Esp 32.jpeg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-13</p>
+        <h3 class="project-name">DESIGN AND DEVELOPMENT OF ESP32  </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+        <div class="project-tags"><span class="tag">IOT</span><span class="tag">MICROCONTROLLER</span><span class="tag">WIRELESS COMMUNICATION</span></div>
+
+        <a href="./Dcoment PDF/ESP32 Design.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/Rc solar plane.jpeg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-14</p>
+        <h3 class="project-name">HYBRID SOLAR POWERED RC PLANE  </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+       <div class="project-tags"><span class="tag">SOLAR ENERGY</span><span class="tag">HYBRID SYSTEM</span><span class="tag">SUSTAINABILITY</span></div>
+
+        <a href="./Dcoment PDF/Hybrid Solar Powered RC Plane.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/navigation fencing.jpeg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-15</p>
+        <h3 class="project-name">VIRTUAL FENCING & NAVIGATION   </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+      <div class="project-tags"><span class="tag">GPS</span><span class="tag">GEO-FENCING</span><span class="tag">AUTONOMOUS CONTROL</span></div>
+
+        <a href="./Dcoment PDF/Virtual Fencing & Navigation.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/hidden rescue.jpeg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-16</p>
+        <h3 class="project-name">S.O.S SYSTEM   </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+        <div class="project-tags"><span class="tag">EMERGENCY ALERT</span><span class="tag">COMMUNICATION</span><span class="tag">SAFETY</span></div>
+
+        <a href="./Dcoment PDF/S.O.S System.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-17</p>
+        <h3 class="project-name">RC PLANE   </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+        <div class="project-tags"><span class="tag">AERODYNAMICS</span><span class="tag">REMOTE CONTROL</span><span class="tag">FLIGHT SYSTEM</span></div>
+
+        <a href="./Dcoment PDF/RC Plane.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-18</p>
+        <h3 class="project-name">FLOOD ANALYSIS </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+       <div class="project-tags"><span class="tag">DATA MONITORING</span><span class="tag">GIS</span><span class="tag">DISASTER MANAGEMENT</span></div>
+
+        <a href="./Dcoment PDF/Flood Analysis.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-19</p>
+        <h3 class="project-name">HANDSHAKE   </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+        <div class="project-tags"><span class="tag">COMMUNICATION PROTOCOL</span><span class="tag">SIGNAL EXCHANGE</span><span class="tag">EMBEDDED SYSTEM</span></div>
+
+        <a href="./Dcoment PDF/Handshake.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/Aerovision.jpeg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-20</p>
+        <h3 class="project-name">AEROVISION   </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+        <div class="project-tags"><span class="tag">VISION SYSTEM</span><span class="tag">AI PROCESSING</span><span class="tag">OBJECT DETECTION</span></div>
+
+        <a href="./Dcoment PDF/Aerovision.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="./project img/Drone charging station.jpeg" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-21</p>
+        <h3 class="project-name">DRONE CHARGING STATION   </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+       <div class="project-tags"><span class="tag">AUTOMATED CHARGING</span><span class="tag">POWER MANAGEMENT</span><span class="tag">DOCKING SYSTEM</span></div>
+
+        <a href="./Dcoment PDF/Drone Charging Station.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-22</p>
+        <h3 class="project-name">3D-PRINTED QUAD-DRONE  </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+       <div class="project-tags"><span class="tag">3D PRINTING</span><span class="tag">QUADCOPTER</span><span class="tag">CUSTOM FRAME</span></div>
+
+        <a href="./Dcoment PDF/3D-Printed Quad-Drone.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-23</p>
+        <h3 class="project-name">ROBOTICS CONTROL UNIT   </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+       <div class="project-tags"><span class="tag">CONTROL SYSTEM</span><span class="tag">EMBEDDED SYSTEM</span><span class="tag">AUTOMATION</span></div>
+
+        <a href="./Dcoment PDF/Robotics Control Unit.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-24</p>
+        <h3 class="project-name">PAPERWEIGHT   </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+       <div class="project-tags"><span class="tag">DESIGN</span><span class="tag">MATERIAL</span><span class="tag">STATIC OBJECT</span></div>
+
+        <a href="./Dcoment PDF/Paperweight.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+      <div class="project-card" data-status="complete">
+        <div class="project-thumb"><img src="" alt="Project screenshot"></div>
+        <div class="project-status status-complete"><span class="status-dot"></span><span class="status-text">COMPLETE</span></div>
+        <p class="project-idx">// PROJECT-25</p>
+        <h3 class="project-name">SMART GUARDIAN   </h3>
+        <p class="project-desc">ESP32-POWERED AUTONOMOUS GROUND ROBOT WITH ULTRASONIC AND IR OBSTACLE DETECTION.</p>
+        <div class="project-tags"><span class="tag">SECURITY SYSTEM</span><span class="tag">SENSORS</span><span class="tag">IOT</span></div>
+        <a href="./Dcoment PDF/Smart Guardian.pdf" target="_blank" class="project-link">READ REPORT →</a>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+function filterProjects(status,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.project-card').forEach(c=>{
+    if(status==='all'||c.dataset.status===status){c.classList.remove('project-hidden');}
+    else{c.classList.add('project-hidden');}
+  });
+}
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target);}});},{threshold:.12});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+</script>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">
+          <div class="nav-logo-icon"></div>
+          <span class="nav-logo-text">VIH<span>A</span>NG CLUB</span>
+        </a>
+        <p class="footer-desc">PIONEERING HUB FOR DRONE RESEARCH AND DEVELOPMENT AT SSGMCE, SHEGAON.</p>
+        <div class="social-links">
+          <a href="https://instagram.com/vihang_ssgmce" target="_blank" class="social-link">IG</a>
+          <a href="https://linkedin.com/company/vihang-club" target="_blank" class="social-link">LI</a>
+          <a href="https://youtube.com/@vihangclub" target="_blank" class="social-link">YT</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-heading">NAVIGATION</h4>
+        <ul class="footer-links">
+          <li><a href="#about">ABOUT</a></li>
+          <li><a href="#projects">PROJECTS</a></li>
+          <li><a href="#DOCUMENTATION">DOCUMENTATION</a></li>
+          <li><a href="#milestones">ACHIEVEMENTS</a></li>
+          <li><a href="#internship">PLACEMENTS AND INTERNSHIPS</a></li>
+          <li><a href="#team">TEAM</a></li>
+          <li><a href="#gallery">GALLERY</a></li>
+          <li><a href="#contact">CONTACT</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">CONTACT</h4>
+        <div class="contact-item"><span class="contact-label">LOC</span><span class="contact-text">SSGMCE, SHEGAON<br>MAHARASHTRA, INDIA 444203</span></div>
+        <div class="contact-item"><span class="contact-label">EML</span><span class="contact-text"><a href="mailto:vihang@ssgmce.ac.in">VIHANG@SSGMCE.AC.IN</a></span></div>
+      </div>
+      <div>
+        <h4 class="footer-heading">AFFILIATIONS</h4>
+        <div class="affil-card"><span class="affil-label">PARENT INSTITUTION</span><span class="affil-text">SSGMCE, SHEGAON</span></div>
+        <div class="affil-card"><span class="affil-label">UNIVERSITY</span><span class="affil-text">SGBAU, AMRAVATI</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© <span id="year"></span> VIHANG CLUB. ALL RIGHTS RESERVED.</p>
+      <span class="footer-tagline">INNOVATE · NAVIGATE · ELEVATE</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── UTC Clock ──
+function updateClock(){
+  const t=new Date();
+  document.getElementById('utcTime').textContent='UTC: '+t.toISOString().slice(11,19);
+}
+setInterval(updateClock,1000);updateClock();
+
+// ── Nav Scroll ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);
+});
+
+// ── Mobile Nav ──
+const ham=document.getElementById('hamburger');
+const mNav=document.getElementById('mobileNav');
+ham.addEventListener('click',()=>{
+  mNav.classList.toggle('open');
+  const spans=ham.querySelectorAll('span');
+  if(mNav.classList.contains('open')){
+    spans[0].style.transform='rotate(45deg) translate(5px,5px)';
+    spans[1].style.opacity='0';
+    spans[2].style.transform='rotate(-45deg) translate(5px,-5px)';
+  }else{
+    spans.forEach(s=>{s.style.transform='';s.style.opacity=''});
+  }
+});
+function closeMobile(){mNav.classList.remove('open');}
+
+// ── Year footer ──
+document.getElementById('year').textContent=new Date().getFullYear();
+
+// ── Projects Filter ──
+function filterProjects(status,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.project-card').forEach(c=>{
+    if(status==='all'||c.dataset.status===status){
+      c.classList.remove('project-hidden');
+    }else{
+      c.classList.add('project-hidden');
+    }
+  });
+}
+

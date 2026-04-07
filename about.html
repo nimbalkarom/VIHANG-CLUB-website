@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>VIHANG CLUB — ABOUT</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --gold:#ffb000;--gold2:#ffd055;--gold-dim:rgba(255,176,0,0.12);--bg:#050400;--bg2:#0a0800;--bg3:#111000;
+  --text:#f0ead8;--text-muted:#bdb49a;--text-dim:#706050;--border:rgba(255,176,0,0.12);
+  --font-display:'Bebas Neue',sans-serif;--font-hud:'Orbitron',monospace;--font-mono:'Share Tech Mono',monospace;--font-body:'Rajdhani',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}body{background:var(--bg);color:var(--text);font-family:var(--font-body);overflow-x:hidden;text-transform:uppercase}
+a{text-decoration:none;color:inherit}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:none}
+.container{max-width:1400px;margin:0 auto;padding:0 4rem}
+@media(max-width:768px){.container{padding:0 1.5rem}}
+.section-label{font-family:var(--font-mono);font-size:.56rem;letter-spacing:.3em;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:.8rem}
+.section-label::after{content:'';display:block;height:1px;width:50px;background:var(--gold);opacity:.5}
+.section-title{font-family:var(--font-display);font-size:clamp(3rem,7vw,6.5rem);line-height:.88;letter-spacing:.04em}
+.section-title .accent{color:var(--gold)}
+.btn-secondary{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--gold);padding:.85rem 2rem;border:1px solid rgba(255,176,0,.35);transition:all .2s;display:inline-block}
+.btn-secondary:hover{background:rgba(255,176,0,.06);border-color:var(--gold);transform:translateY(-2px)}
+#about{padding:7rem 0;background:var(--bg2)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start}
+.about-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:2rem}
+.about-stat-cell{background:var(--bg3);padding:1.5rem;text-align:center}
+.about-stat-val{display:block;font-family:var(--font-display);font-size:2.5rem;color:var(--gold)}
+.about-stat-lbl{display:block;font-family:var(--font-mono);font-size:.48rem;letter-spacing:.2em;color:var(--text-dim);margin-top:.2rem}
+.mission-items{display:flex;flex-direction:column;gap:1rem;margin-bottom:2rem}
+.mission-item{display:flex;gap:1.5rem;align-items:flex-start;padding:1.2rem 1.4rem;border:1px solid var(--border);background:var(--gold-dim);position:relative;overflow:hidden;transition:all .3s;cursor:default}
+.mission-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transform-origin:top;transition:.3s}
+.mission-item:hover{border-color:rgba(255,176,0,.25);background:rgba(255,176,0,.09)}
+.mission-item:hover::before{transform:scaleY(1)}
+.mission-id{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.15em;color:var(--gold);white-space:nowrap;padding-top:.2rem}
+.mission-text{font-family:var(--font-body);font-size:.92rem;font-weight:300;color:var(--text-muted);line-height:1.7}
+.about-visual{position:relative;aspect-ratio:4/3;border:1px solid rgba(255,176,0,.2);overflow:hidden;background:var(--bg3);margin-bottom:2rem}
+.about-visual-badge{position:absolute;bottom:0;left:0;right:0;font-family:var(--font-mono);font-size:.52rem;letter-spacing:.2em;color:var(--gold);background:rgba(5,4,0,.88);padding:.7rem 1rem;border-top:1px solid rgba(255,176,0,.2)}
+.corner{position:absolute;width:14px;height:14px}
+.corner.tl{top:8px;left:8px;border-top:1.5px solid var(--gold);border-left:1.5px solid var(--gold)}
+.corner.tr{top:8px;right:8px;border-top:1.5px solid var(--gold);border-right:1.5px solid var(--gold)}
+.corner.bl{bottom:8px;left:8px;border-bottom:1.5px solid var(--gold);border-left:1.5px solid var(--gold)}
+.corner.br{bottom:8px;right:8px;border-bottom:1.5px solid var(--gold);border-right:1.5px solid var(--gold)}
+.about-btns{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.5rem}
+.about-goals{margin-top:4rem;padding-top:4rem;border-top:1px solid var(--border)}
+.goals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem}
+.goal-card{padding:2rem;border:1px solid var(--border);background:var(--bg3);transition:all .3s;position:relative;overflow:hidden}
+.goal-card:hover{border-color:rgba(255,176,0,.3);background:#181500;transform:translateY(-3px)}
+.goal-card::after{content:'';position:absolute;bottom:0;right:0;width:0;height:0;border-style:solid;border-width:0 0 40px 40px;border-color:transparent transparent rgba(255,176,0,.1) transparent;transition:all .3s}
+.goal-card:hover::after{border-width:0 0 60px 60px}
+.goal-icon{font-size:1.8rem;margin-bottom:1rem;display:block}
+.goal-title{font-family:var(--font-hud);font-size:.75rem;color:var(--gold);letter-spacing:.12em;margin-bottom:.6rem}
+.goal-text{font-family:var(--font-body);font-size:.88rem;font-weight:300;color:var(--text-dim);line-height:1.6}
+.text-center{text-align:center}.mb-3{margin-bottom:3rem}
+@media(max-width:900px){.about-grid{grid-template-columns:1fr}.goals-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.goals-grid{grid-template-columns:1fr}}
+
+/* ───── NAV ───── */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:1.6rem 4rem;transition:all .4s;}
+nav.scrolled{padding:.9rem 4rem;background:rgba(5,4,0,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-logo{display:flex;align-items:center;gap:.7rem;text-decoration:none}
+.nav-logo-icon{width:28px;height:28px;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;position:relative;}
+.nav-logo-icon::after{content:'';position:absolute;inset:3px;background:var(--gold);clip-path:polygon(50% 0,100% 100%,0 100%);animation:pulseLogo 3s ease-in-out infinite;}
+@keyframes pulseLogo{0%,100%{opacity:1}50%{opacity:.6}}
+.nav-logo-text{font-family:var(--font-hud);font-size:1.2rem;font-weight:700;letter-spacing:.2em;color:var(--text);}
+.nav-logo-text span{color:var(--gold)}
+.nav-links{display:flex;background:var(--gold-dim);border:1px solid var(--border);}
+.nav-links a{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.18em;padding:.6rem 1.1rem;border-right:1px solid var(--border);color:var(--text-dim);transition:all .2s;display:block;}
+.nav-links a:last-child{border-right:none}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);background:rgba(255,176,0,.06)}
+.nav-cta{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.18em;color:var(--bg);background:var(--gold);padding:.55rem 1.2rem;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));transition:all .2s;}
+.nav-cta:hover{background:var(--gold2);transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:4px;cursor:pointer;background:none;border:none;}
+.hamburger span{width:22px;height:1.5px;background:var(--gold);display:block;transition:all .3s;}
+.mobile-nav{display:none;position:fixed;top:60px;left:0;right:0;background:rgba(5,4,0,.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);flex-direction:column;z-index:899;}
+.mobile-nav a{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.18em;padding:.8rem 1.5rem;border-bottom:1px solid rgba(255,176,0,.05);color:var(--text-dim);transition:all .2s;display:block;}
+.mobile-nav a:hover{color:var(--gold);background:rgba(255,176,0,.06)}
+.mobile-nav .nav-cta{margin:1rem 1.5rem 1.5rem;display:block;text-align:center;padding:.8rem;}
+@media(max-width:900px){nav{padding:1rem 1.5rem}nav.scrolled{padding:.8rem 1.5rem}.nav-links,.nav-cta-wrap{display:none}.hamburger{display:flex}.mobile-nav.open{display:flex}}
+/* page top padding for fixed nav */
+body>section:first-of-type, body>div:first-of-type{padding-top:0}
+section{scroll-margin-top:80px}
+
+
+/* ───── FOOTER ───── */
+footer{background:var(--bg);border-top:1px solid var(--border)}
+.footer-inner{padding:5rem 0 0}
+.footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:3rem;padding-bottom:4rem}
+.footer-brand .nav-logo{margin-bottom:1.5rem;display:inline-flex}
+.footer-desc{font-family:var(--font-mono);font-size:.72rem;color:var(--text-dim);line-height:1.7;margin-bottom:1.5rem}
+.social-links{display:flex;gap:.6rem}
+.social-link{width:36px;height:36px;border:1px solid rgba(255,176,0,.2);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:.48rem;letter-spacing:.05em;color:var(--text-dim);transition:all .2s;}
+.social-link:hover{color:var(--gold);border-color:var(--gold);background:rgba(255,176,0,.06)}
+.footer-heading{font-family:var(--font-mono);font-size:.58rem;font-weight:700;letter-spacing:.25em;color:var(--gold);margin-bottom:1.5rem;}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:.7rem}
+.footer-links a{font-family:var(--font-mono);font-size:.7rem;color:var(--text-dim);transition:color .2s;}
+.footer-links a:hover{color:var(--gold)}
+.contact-item{display:flex;align-items:flex-start;gap:.8rem;margin-bottom:1rem}
+.contact-label{font-family:var(--font-mono);font-size:.48rem;color:var(--gold);margin-top:.1rem;min-width:2rem}
+.contact-text{font-family:var(--font-mono);font-size:.7rem;color:var(--text-dim);line-height:1.5}
+.contact-text a{color:var(--text-dim);transition:color .2s}
+.contact-text a:hover{color:var(--gold)}
+.affil-card{padding:1rem;border:1px solid var(--border);background:var(--bg3);margin-bottom:.8rem;}
+.affil-label{font-family:var(--font-mono);font-size:.48rem;letter-spacing:.15em;color:var(--gold);display:block;margin-bottom:.2rem}
+.affil-text{font-family:var(--font-mono);font-size:.7rem;color:var(--text-muted)}
+.footer-bottom{border-top:1px solid var(--border);padding:1.5rem 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-copy{font-family:var(--font-mono);font-size:.58rem;color:#4a3d2a}
+.footer-tagline{font-family:var(--font-mono);font-size:.52rem;letter-spacing:.3em;color:var(--gold)}
+@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;gap:2rem}}
+@media(max-width:600px){.footer-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}}
+
+</style>
+</head>
+<body>
+<!-- ═══════════════ NAV ═══════════════ -->
+<nav id="navbar">
+  <a href="http://127.0.0.1:5500/hero.html" class="nav-logo">
+    <div class="nav-logo-icon"></div>
+    <span class="nav-logo-text">VIH<span>A</span>NG CLUB</span>
+  </a>
+  <div class="nav-links">
+    <a href="http://127.0.0.1:5500/about.html">ABOUT</a>
+    <a href="http://127.0.0.1:5500/projects.html">PROJECTS</a>
+    <a href="http://127.0.0.1:5500/documentation.html">DOCUMENTATION</a>
+    <a href="http://127.0.0.1:5500/achievements.html">ACHIEVEMENTS</a>
+    <a href="http://127.0.0.1:5500/internship.html">PLACEMENTS AND INTERNSHIPS</a>
+    <a href="http://127.0.0.1:5500/team.html">TEAM</a>
+    <a href="http://127.0.0.1:5500/gallery.html">GALLERY</a>
+    <a href="http://127.0.0.1:5500/contact.html">CONTACT</a>
+  </div>
+  
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="http://127.0.0.1:5500/about.html" onclick="closeMobile()">ABOUT</a>
+  <a href="http://127.0.0.1:5500/projects.html" onclick="closeMobile()">PROJECTS</a>
+  <a href="http://127.0.0.1:5500/documentation.html" onclick="closeMobile()">DOCUMENTATION</a>
+  <a href="http://127.0.0.1:5500/achievements.html" onclick="closeMobile()">ACHIEVEMENTS</a>
+  <a href="http://127.0.0.1:5500/internship.html" onclick="closeMobile()">PLACEMENTS AND INTERNSHIPS</a>
+  <a href="http://127.0.0.1:5500/team.html" onclick="closeMobile()">TEAM</a>
+  <a href="http://127.0.0.1:5500/gallery.html" onclick="closeMobile()">IN THE FIELD</a>
+  <a href="http://127.0.0.1:5500/contact.html" onclick="closeMobile()">CONTACT</a>
+  <a href="https://forms.gle/pg4QRuGdMAZSpAg4A" target="_blank" class="nav-cta">JOIN NOW →</a>
+</div>
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <!-- Left -->
+      <div class="fade-in">
+        <p class="section-label">01 / ABOUT</p>
+        <h2 class="section-title">WELCOME<br>TO<br><span class="accent">VIHANG</span></h2>
+        <p style="font-family:var(--font-body);font-size:1rem;font-weight:300;color:var(--text-muted);line-height:1.8;margin:1.5rem 0 2rem;max-width:500px">
+          A STUDENT-LED CLUB DEVOTED TO RESEARCH, ENGINEERING, AND COMPETITION IN UNMANNED AERIAL VEHICLES — PUSHING BOUNDARIES AT SSGMCE SINCE 2023.
+        </p>
+
+        <!-- About Nav Buttons -->
+        <div class="about-btns">
+          <a href="#projects" class="btn-secondary">CURRENT PROJECT</a>
+          <a href="#team" class="btn-secondary">MEMBER</a>
+          <a href="#DOCUMENTATION" class="btn-secondary">IPR</a>
+        </div>
+
+        <div class="about-stats-grid" style="margin-top:2rem">
+          <div class="about-stat-cell"><span class="about-stat-val">23+</span><span class="about-stat-lbl">PROJECTS</span></div>
+          <div class="about-stat-cell"><span class="about-stat-val">3</span><span class="about-stat-lbl">MENTORS</span></div>
+          <div class="about-stat-cell"><span class="about-stat-val">34+</span><span class="about-stat-lbl">INNOVATOR</span></div>
+        </div>
+
+        <div class="mission-items">
+          <div class="mission-item"><span class="mission-id">M-01</span><span class="mission-text">WE FOCUS ON RESEARCH, DEVELOPMENT, AND PRACTICAL DRONE PROJECTS TO PROVIDE REAL-WORLD TECHNICAL EXPERIENCE.</span></div>
+          <div class="mission-item"><span class="mission-id">M-02</span><span class="mission-text">WE PREPARE AND MENTOR STUDENTS TO PARTICATE AND EXCEL IN NATIONAL AND INTERNATIONAL DRONE COMPETITIONS.</span></div>
+          <div class="mission-item"><span class="mission-id">M-03</span><span class="mission-text">WE PROMOTE AWARENESS OF EMERGING OPPORTUNITIES IN UAV TECHNOLOGY WHILE BUILDING ESSENTIAL TECHNICAL AND PROBLEM-SOLVING SKILLS.</span></div>
+          <div class="mission-item"><span class="mission-id">M-04</span><span class="mission-text">THROUGH WORKSHOPS, PROJECTS, AND COLLABORATIONS, WE PROVIDE A PLATFORM FOR STUDENTS TO EXPLORE, INNOVATE, AND BUILD SUCCESSFUL CAREERS IN THE DRONE INDUSTRY.</span></div>
+        </div>
+      </div>
+
+      <!-- Right -->
+       <div class="about-visual" style="position:relative; overflow:hidden;">
+
+  <video autoplay muted loop playsinline
+    style="position:absolute; width:100%; height:100%; object-fit:cover; top:0; left:0;">
+    <source src="./video/about video vihang logo.mp4" type="video/mp4">
+  </video>
+          <div class="corner tl"></div><div class="corner tr"></div>
+          <div class="corner bl"></div><div class="corner br"></div>
+          <div class="about-visual-badge">// VIHANG CLUB — SSGMCE SHEGAON · EST. 2023</div>
+
+</div>
+      <div class="fade-in" style="animation-delay:.2s">
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Goals and Vision -->
+    <div class="about-goals fade-in">
+      <div class="text-center mb-3">
+        <p class="section-label" style="justify-content:center">// OUR GOALS AND VISION</p>
+        <h3 class="section-title" style="font-size:clamp(2rem,5vw,4rem)">WHAT WE <span class="accent">STAND FOR</span></h3>
+        <p style="font-family:var(--font-mono);font-size:.7rem;color:var(--text-dim);max-width:500px;margin:1rem auto 0;line-height:1.7">DRIVING EXCELLENCE IN UAV TECHNOLOGY THROUGH A CLEAR SET OF GOALS THAT DEFINE OUR PATH FORWARD.</p>
+      </div>
+      <div class="goals-grid">
+        <div class="goal-card fade-in">
+          <span class="goal-icon"></span>
+          <div class="goal-title">INNOVATION & RESEARCH</div>
+          <p class="goal-text">FOCUS ON IDENTIFYING REAL-WORLD UAV CHALLENGES AND DEVELOPING INNOVATIVE DRONE SOLUTIONS THROUGH RESEARCH, PATENTS AND PUBLICATIONS.</p>
+        </div>
+        <div class="goal-card fade-in" style="animation-delay:.1s">
+          <span class="goal-icon"></span>
+          <div class="goal-title">COMPETITION EXCELLENCE</div>
+          <p class="goal-text">PREPARE AND EMPOWER STUDENTS TO PARTICIPATE, COMPETE AND ACHIEVE RECOGNITION IN NATIONAL AND INTERNATIONAL DRONE COMPETITIONS.</p>
+        </div>
+        <div class="goal-card fade-in" style="animation-delay:.2s">
+          <span class="goal-icon"></span>
+          <div class="goal-title">INDUSTRY CONNECT</div>
+          <p class="goal-text">BUILD STRONG INDUSTRY LINKAGES BY PROVIDING INTERNSHIPS, PLACEMENTS, FUNDING OPPORTUNITIES AND INDUSTRIAL EXPOSURE.</p>
+        </div>
+        <div class="goal-card fade-in" style="animation-delay:.3s">
+          <span class="goal-icon"></span>
+          <div class="goal-title">INTELLECTUAL PROPERTY</div>
+          <p class="goal-text">ENCOURAGE STUDENTS TO PROTECT THEIR INNOVATIONS THROUGH IPR, PATENTS AND TECHNOLOGICAL CONTRIBUTIONS.</p>
+        </div>
+        <div class="goal-card fade-in" style="animation-delay:.4s">
+          <span class="goal-icon"></span>
+          <div class="goal-title">SKILL DEVELOPMENT</div>
+          <p class="goal-text">ENHANCE TECHNICAL AND PRACTICAL SKILLS BY DESIGNING, CUSTOMIZING AND BUILDING UAVS THROUGH HANDS-ON LEARNING.</p>
+        </div>
+        <div class="goal-card fade-in" style="animation-delay:.5s">
+          <span class="goal-icon"></span>
+          <div class="goal-title">COMMUNITY IMPACT</div>
+          <p class="goal-text">CREATE A VIBRANT ECOSYSTEM THAT INSPIRES STUDENTS TO EXPLORE DRONE TECHNOLOGY, INNOVATE RESPONSIBLY AND BUILD SUCCESSFUL CAREERS IN THE UAV INDUSTRY.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target);}});},{threshold:.12});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+</script>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">
+          <div class="nav-logo-icon"></div>
+          <span class="nav-logo-text">VIH<span>A</span>NG CLUB</span>
+        </a>
+        <p class="footer-desc">PIONEERING HUB FOR DRONE RESEARCH AND DEVELOPMENT AT SSGMCE, SHEGAON.</p>
+        <div class="social-links">
+          <a href="https://instagram.com/vihang_ssgmce" target="_blank" class="social-link">IG</a>
+          <a href="https://linkedin.com/company/vihang-club" target="_blank" class="social-link">LI</a>
+          <a href="https://youtube.com/@vihangclub" target="_blank" class="social-link">YT</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-heading">NAVIGATION</h4>
+        <ul class="footer-links">
+          <li><a href="#about">ABOUT</a></li>
+          <li><a href="#http://127.0.0.1:5500/projects.html">PROJECTS</a></li>
+          <li><a href="#DOCUMENTATION">DOCUMENTATION</a></li>
+          <li><a href="#milestones">ACHIEVEMENTS</a></li>
+          <li><a href="#internship">PLACEMENTS AND INTERNSHIPS</a></li>
+          <li><a href="#team">TEAM</a></li>
+          <li><a href="#gallery">GALLERY</a></li>
+          <li><a href="#contact">CONTACT</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">CONTACT</h4>
+        <div class="contact-item"><span class="contact-label">LOC</span><span class="contact-text">SSGMCE, SHEGAON<br>MAHARASHTRA, INDIA 444203</span></div>
+        <div class="contact-item"><span class="contact-label">EML</span><span class="contact-text"><a href="mailto:vihang@ssgmce.ac.in">VIHANG@SSGMCE.AC.IN</a></span></div>
+      </div>
+      <div>
+        <h4 class="footer-heading">AFFILIATIONS</h4>
+        <div class="affil-card"><span class="affil-label">PARENT INSTITUTION</span><span class="affil-text">SSGMCE, SHEGAON</span></div>
+        <div class="affil-card"><span class="affil-label">UNIVERSITY</span><span class="affil-text">SGBAU, AMRAVATI</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© <span id="year"></span> VIHANG CLUB. ALL RIGHTS RESERVED.</p>
+      <span class="footer-tagline">INNOVATE · NAVIGATE · ELEVATE</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── UTC Clock ──
+function updateClock(){
+  const t=new Date();
+  document.getElementById('utcTime').textContent='UTC: '+t.toISOString().slice(11,19);
+}
+setInterval(updateClock,1000);updateClock();
+
+// ── Nav Scroll ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);
+});
+
+// ── Mobile Nav ──
+const ham=document.getElementById('hamburger');
+const mNav=document.getElementById('mobileNav');
+ham.addEventListener('click',()=>{
+  mNav.classList.toggle('open');
+  const spans=ham.querySelectorAll('span');
+  if(mNav.classList.contains('open')){
+    spans[0].style.transform='rotate(45deg) translate(5px,5px)';
+    spans[1].style.opacity='0';
+    spans[2].style.transform='rotate(-45deg) translate(5px,-5px)';
+  }else{
+    spans.forEach(s=>{s.style.transform='';s.style.opacity=''});
+  }
+});
+function closeMobile(){mNav.classList.remove('open');}
+
+// ── Year footer ──
+document.getElementById('year').textContent=new Date().getFullYear();
+
+// ── Projects Filter ──
+function filterProjects(status,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.project-card').forEach(c=>{
+    if(status==='all'||c.dataset.status===status){
+      c.classList.remove('project-hidden');
+    }else{
+      c.classList.add('project-hidden');
+    }
+  });
+}
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>VIHANG CLUB — GALLERY</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--gold:#ffb000;--gold2:#ffd055;--gold-dim:rgba(255,176,0,0.12);--bg:#050400;--bg2:#0a0800;--bg3:#111000;--text:#f0ead8;--text-muted:#bdb49a;--text-dim:#706050;--border:rgba(255,176,0,0.12);--font-display:'Bebas Neue',sans-serif;--font-hud:'Orbitron',monospace;--font-mono:'Share Tech Mono',monospace;--font-body:'Rajdhani',sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}body{background:var(--bg);color:var(--text);font-family:var(--font-body);overflow-x:hidden;text-transform:uppercase}
+a{text-decoration:none;color:inherit}button{cursor:pointer;font-family:inherit;border:none;background:none;text-transform:uppercase}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}.fade-in.visible{opacity:1;transform:none}
+.container{max-width:1400px;margin:0 auto;padding:0 4rem}
+@media(max-width:768px){.container{padding:0 1.5rem}}
+.section-label{font-family:var(--font-mono);font-size:.56rem;letter-spacing:.3em;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:.8rem}
+.section-label::after{content:'';display:block;height:1px;width:50px;background:var(--gold);opacity:.5}
+.section-title{font-family:var(--font-display);font-size:clamp(3rem,7vw,6.5rem);line-height:.88;letter-spacing:.04em}
+.section-title .accent{color:var(--gold)}
+.section-header-row{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1.5rem}
+.btn-secondary{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--gold);padding:.85rem 2rem;border:1px solid rgba(255,176,0,.35);transition:all .2s;display:inline-block}
+.btn-secondary:hover{background:rgba(255,176,0,.06);border-color:var(--gold);transform:translateY(-2px)}
+.mt-3{margin-top:3rem}
+#gallery{padding:7rem 0;background:var(--bg)}
+.gallery-filter{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem}
+.gallery-btn{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.18em;padding:.55rem 1.2rem;border:1px solid var(--border);color:var(--text-dim);transition:all .2s}
+.gallery-btn.active{color:var(--bg);background:var(--gold);border-color:var(--gold)}
+.gallery-btn:hover:not(.active){color:var(--gold);border-color:rgba(255,176,0,.35);background:rgba(255,176,0,.06)}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.gallery-item{position:relative;cursor:pointer;overflow:hidden;background:var(--bg3);border:1px solid var(--border);transition:all .3s}
+.gallery-item:nth-child(1){grid-column:span 2;grid-row:span 2}
+.gallery-item:hover{border-color:rgba(255,176,0,.4)}
+.gallery-thumb{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a0800,var(--bg3))}
+.gallery-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,4,0,.95) 0%,rgba(5,4,0,.5) 50%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:1rem;opacity:0;transition:.3s}
+.gallery-item:hover .gallery-overlay{opacity:1}
+.gallery-cat{font-family:var(--font-mono);font-size:.48rem;letter-spacing:.15em;color:var(--gold);margin-bottom:.2rem}
+.gallery-title{font-family:var(--font-hud);font-size:.7rem;letter-spacing:.08em;color:var(--text)}
+.gallery-brackets{position:absolute;inset:0;pointer-events:none;opacity:0;transition:.3s}
+.gallery-item:hover .gallery-brackets{opacity:1}
+.gb{position:absolute;width:14px;height:14px}
+.gb.tl{top:8px;left:8px;border-top:1.5px solid var(--gold);border-left:1.5px solid var(--gold)}
+.gb.tr{top:8px;right:8px;border-top:1.5px solid var(--gold);border-right:1.5px solid var(--gold)}
+.gb.bl{bottom:8px;left:8px;border-bottom:1.5px solid var(--gold);border-left:1.5px solid var(--gold)}
+.gb.br{bottom:8px;right:8px;border-bottom:1.5px solid var(--gold);border-right:1.5px solid var(--gold)}
+/* Lightbox */
+.lightbox{position:fixed;inset:0;z-index:999;background:rgba(5,4,0,.97);display:none;align-items:center;justify-content:center;padding:1rem}
+.lightbox.open{display:flex}
+.lightbox-close{position:absolute;top:1rem;right:1rem;width:40px;height:40px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--text-dim);cursor:pointer;transition:.2s}
+.lightbox-close:hover{color:var(--gold);border-color:var(--gold)}
+.lightbox-prev,.lightbox-next{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-dim);cursor:pointer;transition:.2s;font-size:1.2rem}
+.lightbox-prev{left:1rem}.lightbox-next{right:1rem}
+.lightbox-prev:hover,.lightbox-next:hover{color:var(--gold);border-color:var(--gold)}
+.lightbox-content{max-width:900px;width:100%}
+.lightbox-img{width:100%;aspect-ratio:16/9;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:4rem}
+.lightbox-info{text-align:center;margin-top:1rem}
+@media(max-width:768px){.gallery-grid{grid-template-columns:repeat(2,1fr)}.gallery-item:nth-child(1){grid-column:span 2;grid-row:auto}}
+
+/* ───── NAV ───── */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:1.6rem 4rem;transition:all .4s;}
+nav.scrolled{padding:.9rem 4rem;background:rgba(5,4,0,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-logo{display:flex;align-items:center;gap:.7rem;text-decoration:none}
+.nav-logo-icon{width:28px;height:28px;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;position:relative;}
+.nav-logo-icon::after{content:'';position:absolute;inset:3px;background:var(--gold);clip-path:polygon(50% 0,100% 100%,0 100%);animation:pulseLogo 3s ease-in-out infinite;}
+@keyframes pulseLogo{0%,100%{opacity:1}50%{opacity:.6}}
+.nav-logo-text{font-family:var(--font-hud);font-size:1.2rem;font-weight:700;letter-spacing:.2em;color:var(--text);}
+.nav-logo-text span{color:var(--gold)}
+.nav-links{display:flex;background:var(--gold-dim);border:1px solid var(--border);}
+.nav-links a{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.18em;padding:.6rem 1.1rem;border-right:1px solid var(--border);color:var(--text-dim);transition:all .2s;display:block;}
+.nav-links a:last-child{border-right:none}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);background:rgba(255,176,0,.06)}
+.nav-cta{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.18em;color:var(--bg);background:var(--gold);padding:.55rem 1.2rem;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));transition:all .2s;}
+.nav-cta:hover{background:var(--gold2);transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:4px;cursor:pointer;background:none;border:none;}
+.hamburger span{width:22px;height:1.5px;background:var(--gold);display:block;transition:all .3s;}
+.mobile-nav{display:none;position:fixed;top:60px;left:0;right:0;background:rgba(5,4,0,.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);flex-direction:column;z-index:899;}
+.mobile-nav a{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.18em;padding:.8rem 1.5rem;border-bottom:1px solid rgba(255,176,0,.05);color:var(--text-dim);transition:all .2s;display:block;}
+.mobile-nav a:hover{color:var(--gold);background:rgba(255,176,0,.06)}
+.mobile-nav .nav-cta{margin:1rem 1.5rem 1.5rem;display:block;text-align:center;padding:.8rem;}
+@media(max-width:900px){nav{padding:1rem 1.5rem}nav.scrolled{padding:.8rem 1.5rem}.nav-links,.nav-cta-wrap{display:none}.hamburger{display:flex}.mobile-nav.open{display:flex}}
+/* page top padding for fixed nav */
+body>section:first-of-type, body>div:first-of-type{padding-top:0}
+section{scroll-margin-top:80px}
+
+/* ───── LIGHTBOX ───── */
+.lightbox{
+  position:fixed;inset:0;z-index:999;
+  background:rgba(5,4,0,.97);display:none;
+  align-items:center;justify-content:center;padding:1rem;
+}
+.lightbox.open{display:flex}
+.lightbox-close{
+  position:absolute;top:1rem;right:1rem;
+  width:40px;height:40px;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;color:var(--text-dim);cursor:pointer;transition:.2s;
+}
+.lightbox-close:hover{color:var(--gold);border-color:var(--gold)}
+.lightbox-prev,.lightbox-next{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:44px;height:44px;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text-dim);cursor:pointer;transition:.2s;font-size:1.2rem;
+}
+.lightbox-prev{left:1rem}
+.lightbox-next{right:1rem}
+.lightbox-prev:hover,.lightbox-next:hover{color:var(--gold);border-color:var(--gold)}
+.lightbox-content{max-width:900px;width:100%}
+.lightbox-img{
+  width:100%;aspect-ratio:16/9;background:var(--bg3);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+}
+.lightbox-img span{font-family:var(--font-display);font-size:4rem;color:rgba(255,176,0,.15)}
+.lightbox-info{text-align:center;margin-top:1rem}
+.lightbox-info .gallery-cat{display:block;margin-bottom:.2rem}
+.lightbox-info .gallery-title{display:block;font-size:1rem}
+
+
+/* ───── FOOTER ───── */
+footer{background:var(--bg);border-top:1px solid var(--border)}
+.footer-inner{padding:5rem 0 0}
+.footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:3rem;padding-bottom:4rem}
+.footer-brand .nav-logo{margin-bottom:1.5rem;display:inline-flex}
+.footer-desc{font-family:var(--font-mono);font-size:.72rem;color:var(--text-dim);line-height:1.7;margin-bottom:1.5rem}
+.social-links{display:flex;gap:.6rem}
+.social-link{width:36px;height:36px;border:1px solid rgba(255,176,0,.2);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:.48rem;letter-spacing:.05em;color:var(--text-dim);transition:all .2s;}
+.social-link:hover{color:var(--gold);border-color:var(--gold);background:rgba(255,176,0,.06)}
+.footer-heading{font-family:var(--font-mono);font-size:.58rem;font-weight:700;letter-spacing:.25em;color:var(--gold);margin-bottom:1.5rem;}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:.7rem}
+.footer-links a{font-family:var(--font-mono);font-size:.7rem;color:var(--text-dim);transition:color .2s;}
+.footer-links a:hover{color:var(--gold)}
+.contact-item{display:flex;align-items:flex-start;gap:.8rem;margin-bottom:1rem}
+.contact-label{font-family:var(--font-mono);font-size:.48rem;color:var(--gold);margin-top:.1rem;min-width:2rem}
+.contact-text{font-family:var(--font-mono);font-size:.7rem;color:var(--text-dim);line-height:1.5}
+.contact-text a{color:var(--text-dim);transition:color .2s}
+.contact-text a:hover{color:var(--gold)}
+.affil-card{padding:1rem;border:1px solid var(--border);background:var(--bg3);margin-bottom:.8rem;}
+.affil-label{font-family:var(--font-mono);font-size:.48rem;letter-spacing:.15em;color:var(--gold);display:block;margin-bottom:.2rem}
+.affil-text{font-family:var(--font-mono);font-size:.7rem;color:var(--text-muted)}
+.footer-bottom{border-top:1px solid var(--border);padding:1.5rem 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-copy{font-family:var(--font-mono);font-size:.58rem;color:#4a3d2a}
+.footer-tagline{font-family:var(--font-mono);font-size:.52rem;letter-spacing:.3em;color:var(--gold)}
+@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;gap:2rem}}
+@media(max-width:600px){.footer-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}}
+
+
+/* ───── QUICK LINKS ───── */
+#quicklinks{padding:7rem 0;background:var(--bg2)}
+.ql-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--border);border:1px solid var(--border);
+}
+.ql-card{
+  background:var(--bg3);padding:2.5rem;transition:all .3s;
+  position:relative;cursor:pointer;
+}
+.ql-card:hover{background:#181500}
+.ql-num{
+  position:absolute;top:1.5rem;right:1.5rem;
+  font-family:var(--font-mono);font-size:.58rem;color:rgba(255,176,0,.25);
+  transition:color .2s;
+}
+.ql-card:hover .ql-num{color:var(--gold)}
+.ql-title{font-family:var(--font-display);font-size:2rem;color:var(--text);margin-bottom:.7rem;tracking:tight;transition:color .2s}
+.ql-card:hover .ql-title{color:var(--gold)}
+.ql-desc{font-family:var(--font-mono);font-size:.7rem;color:var(--text-dim);line-height:1.7;margin-bottom:2rem}
+.ql-arrow{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.15em;color:var(--text-dim);transition:all .2s;display:inline-flex;align-items:center;gap:.4rem}
+.ql-card:hover .ql-arrow{color:var(--gold);transform:translateX(4px)}
+.ql-corner-br{
+  position:absolute;bottom:0;right:0;width:16px;height:16px;
+  border-bottom:1px solid rgba(255,176,0,.2);border-right:1px solid rgba(255,176,0,.2);
+  transition:all .3s;
+}
+.ql-card:hover .ql-corner-br{width:32px;height:32px;border-color:var(--gold)}
+@media(max-width:768px){.ql-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.ql-grid{grid-template-columns:1fr}}
+
+/* ───── UTILITIES ───── */
+.text-center{text-align:center}
+.mt-1{margin-top:1rem}.mt-2{margin-top:2rem}.mt-3{margin-top:3rem}.mt-4{margin-top:4rem}
+.mb-1{margin-bottom:1rem}.mb-2{margin-bottom:2rem}.mb-3{margin-bottom:3rem}
+.hidden{display:none!important}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<!-- ═══════════════ NAV ═══════════════ -->
+<nav id="navbar">
+  <a href="http://127.0.0.1:5500/hero.html" class="nav-logo">
+    <div class="nav-logo-icon"></div>
+    <span class="nav-logo-text">VIH<span>A</span>NG CLUB</span>
+  </a>
+  <div class="nav-links">
+   <a href="http://127.0.0.1:5500/about.html">ABOUT</a>
+    <a href="http://127.0.0.1:5500/projects.html">PROJECTS</a>
+    <a href="http://127.0.0.1:5500/documentation.html">DOCUMENTATION</a>
+    <a href="http://127.0.0.1:5500/achievements.html">ACHIEVEMENTS</a>
+    <a href="http://127.0.0.1:5500/internship.html">PLACEMENTS AND INTERNSHIPS</a>
+    <a href="http://127.0.0.1:5500/team.html">TEAM</a>
+    <a href="http://127.0.0.1:5500/gallery.html">GALLERY</a>
+    <a href="http://127.0.0.1:5500/contact.html">CONTACT</a>
+  </div>
+  
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+   <a href="http://127.0.0.1:5500/about.html" onclick="closeMobile()">ABOUT</a>
+  <a href="http://127.0.0.1:5500/projects.html" onclick="closeMobile()">PROJECTS</a>
+  <a href="http://127.0.0.1:5500/documentation.html" onclick="closeMobile()">DOCUMENTATION</a>
+  <a href="http://127.0.0.1:5500/achievements.html" onclick="closeMobile()">ACHIEVEMENTS</a>
+  <a href="http://127.0.0.1:5500/internship.html" onclick="closeMobile()">PLACEMENTS AND INTERNSHIPS</a>
+  <a href="http://127.0.0.1:5500/team.html" onclick="closeMobile()">TEAM</a>
+  <a href="http://127.0.0.1:5500/gallery.html" onclick="closeMobile()">IN THE FIELD</a>
+  <a href="http://127.0.0.1:5500/contact.html" onclick="closeMobile()">CONTACT</a>
+  <a href="https://forms.gle/pg4QRuGdMAZSpAg4A" target="_blank" class="nav-cta">JOIN NOW →</a>
+</div>
+<section id="gallery">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">07 / IN THE FIELD</p>
+      <div class="section-header-row">
+        <h2 class="section-title">IN THE<br><span class="accent">FIELD</span></h2>
+        <a href="#" class="btn-secondary">VIEW FULL ARCHIVE →</a>
+      </div>
+    </div>
+
+    <!-- Gallery Filter -->
+    <div class="gallery-filter mt-3">
+      <button class="gallery-btn active" onclick="filterGallery('all',this)">ALL</button>
+      <button class="gallery-btn" onclick="filterGallery('competition',this)">COMPETITIONS</button>
+      <button class="gallery-btn" onclick="filterGallery('workshop',this)">WORKSHOPS</button>
+      <button class="gallery-btn" onclick="filterGallery('project',this)">PROJECTS</button>
+      <button class="gallery-btn" onclick="filterGallery('event',this)">EVENTS</button>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-item fade-in" data-cat="workshop" onclick="openLightbox(1,'RACING DRONE ASSEMBLY','WORKSHOP')">
+        <div class="gallery-thumb" style="font-size:2.5rem"></div>
+        <div class="gallery-overlay"><span class="gallery-cat">WORKSHOP</span><span class="gallery-title">RACING DRONE ASSEMBLY</span></div>
+        <div class="gallery-brackets"><div class="gb tl"></div><div class="gb tr"></div><div class="gb bl"></div><div class="gb br"></div></div>
+      </div>
+      <div class="gallery-item fade-in" data-cat="testing" onclick="openLightbox(2,'FIELD TESTING','TESTING')">
+        <div class="gallery-thumb" style="font-size:2.5rem"></div>
+        <div class="gallery-overlay"><span class="gallery-cat">TESTING</span><span class="gallery-title">FIELD TESTING</span></div>
+        <div class="gallery-brackets"><div class="gb tl"></div><div class="gb tr"></div><div class="gb bl"></div><div class="gb br"></div></div>
+      </div>
+      <div class="gallery-item fade-in" data-cat="competition" onclick="openLightbox(3,'NATIONAL CHAMPIONSHIP','COMPETITION')">
+        <div class="gallery-thumb" style="font-size:2.5rem"></div>
+        <div class="gallery-overlay"><span class="gallery-cat">COMPETITION</span><span class="gallery-title">NATIONAL CHAMPIONSHIP</span></div>
+        <div class="gallery-brackets"><div class="gb tl"></div><div class="gb tr"></div><div class="gb bl"></div><div class="gb br"></div></div>
+      </div>
+      <div class="gallery-item fade-in" data-cat="workshop" onclick="openLightbox(4,'WORKSHOP SESSION','WORKSHOP')">
+        <div class="gallery-thumb" style="font-size:2.5rem"></div>
+        <div class="gallery-overlay"><span class="gallery-cat">WORKSHOP</span><span class="gallery-title">WORKSHOP SESSION</span></div>
+        <div class="gallery-brackets"><div class="gb tl"></div><div class="gb tr"></div><div class="gb bl"></div><div class="gb br"></div></div>
+      </div>
+      <div class="gallery-item fade-in" data-cat="event" onclick="openLightbox(5,'FLIGHT TRAINING','EVENT')">
+        <div class="gallery-thumb" style="font-size:2.5rem"></div>
+        <div class="gallery-overlay"><span class="gallery-cat">EVENT</span><span class="gallery-title">FLIGHT TRAINING</span></div>
+        <div class="gallery-brackets"><div class="gb tl"></div><div class="gb tr"></div><div class="gb bl"></div><div class="gb br"></div></div>
+      </div>
+      <div class="gallery-item fade-in" data-cat="event" onclick="openLightbox(6,'EXHIBITION DISPLAY','EVENT')">
+        <div class="gallery-thumb" style="font-size:2.5rem"></div>
+        <div class="gallery-overlay"><span class="gallery-cat">EVENT</span><span class="gallery-title">EXHIBITION DISPLAY</span></div>
+        <div class="gallery-brackets"><div class="gb tl"></div><div class="gb tr"></div><div class="gb bl"></div><div class="gb br"></div></div>
+      </div>
+      <div class="gallery-item fade-in" data-cat="project" onclick="openLightbox(7,'AERIAL PHOTOGRAPHY','PROJECT')">
+        <div class="gallery-thumb" style="font-size:2.5rem"></div>
+        <div class="gallery-overlay"><span class="gallery-cat">PROJECT</span><span class="gallery-title">AERIAL PHOTOGRAPHY</span></div>
+        <div class="gallery-brackets"><div class="gb tl"></div><div class="gb tr"></div><div class="gb bl"></div><div class="gb br"></div></div>
+      </div>
+      <div class="gallery-item fade-in" data-cat="competition" onclick="openLightbox(8,'AWARD CEREMONY','COMPETITION')">
+        <div class="gallery-thumb" style="font-size:2.5rem"></div>
+        <div class="gallery-overlay"><span class="gallery-cat">COMPETITION</span><span class="gallery-title">AWARD CEREMONY</span></div>
+        <div class="gallery-brackets"><div class="gb tl"></div><div class="gb tr"></div><div class="gb bl"></div><div class="gb br"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightboxOutside(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-prev" onclick="prevLightbox()">‹</button>
+  <button class="lightbox-next" onclick="nextLightbox()">›</button>
+  <div class="lightbox-content">
+    <div class="lightbox-img"><span id="lbIcon"></span></div>
+    <div class="lightbox-info">
+      <span class="gallery-cat" id="lbCat">WORKSHOP</span>
+      <span class="gallery-title" id="lbTitle" style="display:block;font-size:1rem;margin-top:.2rem">TITLE</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ QUICK LINKS ═══════════════ -->
+<section id="quicklinks">
+  <div class="container">
+    <div class="text-center mb-4 fade-in">
+      <p class="section-label" style="justify-content:center">// NAVIGATE</p>
+      <h2 class="section-title">EXPLORE <span class="accent">VIHANG</span></h2>
+      <p style="font-family:var(--font-mono);font-size:.7rem;color:var(--text-dim);margin-top:.8rem">QUICK ACCESS TO ALL SECTIONS OF VIHANG CLUB</p>
+    </div>
+    <div class="ql-grid fade-in">
+      <a href="#about" class="ql-card">
+        <span class="ql-num">01</span>
+        <div class="ql-title">ABOUT</div>
+        <p class="ql-desc">OUR VISION, MISSION, AND COMMITMENT TO AERIAL INNOVATION.</p>
+        <span class="ql-arrow">EXPLORE →</span>
+        <div class="ql-corner-br"></div>
+      </a>
+      <a href="#projects" class="ql-card">
+        <span class="ql-num">02</span>
+        <div class="ql-title">PROJECTS</div>
+        <p class="ql-desc">ACTIVE R&D INITIATIVES IN DRONE TECHNOLOGY.</p>
+        <span class="ql-arrow">EXPLORE →</span>
+        <div class="ql-corner-br"></div>
+      </a>
+       <a href="#DOCUMENTATION" class="ql-card">
+        <span class="ql-num">03</span>
+        <div class="ql-title">DOCUMENTATION</div>
+        <p class="ql-desc">PROJECT DOCUMENTATION, RESEARCH REPORTS AND IPR.</p>
+        <span class="ql-arrow">EXPLORE →</span>
+        <div class="ql-corner-br"></div>
+      </a>
+      <a href="#milestones" class="ql-card">
+        <span class="ql-num">04</span>
+        <div class="ql-title">ACHIEVEMENTS</div>
+        <p class="ql-desc">COMPETITION WINS, PATENTS, AND RECOGNITION.</p>
+        <span class="ql-arrow">EXPLORE →</span>
+        <div class="ql-corner-br"></div>
+      </a>
+      <a href="#internship" class="ql-card">
+        <span class="ql-num">05</span>
+        <div class="ql-title">PLACEMENTS AND INTERNSHIPS</div>
+        <p class="ql-desc">MEET OUR MENTORS AND DEDICATED MEMBERS.</p>
+        <span class="ql-arrow">EXPLORE →</span>
+        <div class="ql-corner-br"></div>
+      </a>
+      <a href="#team" class="ql-card">
+        <span class="ql-num">06</span>
+        <div class="ql-title">TEAM</div>
+        <p class="ql-desc">MEET OUR MENTORS AND DEDICATED MEMBERS.</p>
+        <span class="ql-arrow">EXPLORE →</span>
+        <div class="ql-corner-br"></div>
+      </a>
+      <a href="#gallery" class="ql-card">
+        <span class="ql-num">07</span>
+        <div class="ql-title">GALLERY</div>
+        <p class="ql-desc">PHOTOS FROM COMPETITIONS, WORKSHOPS, AND EVENTS.</p>
+        <span class="ql-arrow">EXPLORE →</span>
+        <div class="ql-corner-br"></div>
+      </a>
+      <a href="#contact" class="ql-card">
+        <span class="ql-num">08</span>
+        <div class="ql-title">CONTACT</div>
+        <p class="ql-desc">GET IN TOUCH FOR COLLABORATIONS AND INQUIRIES.</p>
+        <span class="ql-arrow">EXPLORE →</span>
+        <div class="ql-corner-br"></div>
+      </a>
+    </div>
+    <div class="text-center mt-4 fade-in">
+      <a href="https://forms.gle/pg4QRuGdMAZSpAg4A" target="_blank" class="btn-primary" style="font-size:.65rem;padding:1rem 2.5rem">APPLY FOR MEMBERSHIP →</a>
+    </div>
+  </div>
+</section>
+
+<script>
+const galleryData=[{icon:'🚁',title:'RACING DRONE ASSEMBLY',cat:'WORKSHOP'},{icon:'🌾',title:'FIELD TESTING',cat:'TESTING'},{icon:'🏆',title:'NATIONAL CHAMPIONSHIP',cat:'COMPETITION'},{icon:'🔧',title:'WORKSHOP SESSION',cat:'WORKSHOP'},{icon:'✈️',title:'FLIGHT TRAINING',cat:'EVENT'},{icon:'🎪',title:'EXHIBITION DISPLAY',cat:'EVENT'},{icon:'📸',title:'AERIAL PHOTOGRAPHY',cat:'PROJECT'},{icon:'🥇',title:'AWARD CEREMONY',cat:'COMPETITION'}];
+let currentLb=0;
+function filterGallery(cat,btn){document.querySelectorAll('.gallery-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.gallery-item').forEach(item=>{item.style.display=(cat==='all'||item.dataset.cat===cat)?'':'none';});}
+function openLightbox(id,title,cat){currentLb=id-1;updateLightbox();document.getElementById('lightbox').classList.add('open');document.body.style.overflow='hidden';}
+function updateLightbox(){const d=galleryData[currentLb];document.getElementById('lbIcon').textContent=d.icon;document.getElementById('lbTitle').textContent=d.title;document.getElementById('lbCat').textContent=d.cat;}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
+function prevLightbox(){currentLb=(currentLb-1+galleryData.length)%galleryData.length;updateLightbox();}
+function nextLightbox(){currentLb=(currentLb+1)%galleryData.length;updateLightbox();}
+document.addEventListener('keydown',e=>{if(document.getElementById('lightbox').classList.contains('open')){if(e.key==='ArrowLeft')prevLightbox();if(e.key==='ArrowRight')nextLightbox();if(e.key==='Escape')closeLightbox();}});
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target);}});},{threshold:.12});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+</script>
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">
+          <div class="nav-logo-icon"></div>
+          <span class="nav-logo-text">VIH<span>A</span>NG CLUB</span>
+        </a>
+        <p class="footer-desc">PIONEERING HUB FOR DRONE RESEARCH AND DEVELOPMENT AT SSGMCE, SHEGAON.</p>
+        <div class="social-links">
+          <a href="https://instagram.com/vihang_ssgmce" target="_blank" class="social-link">IG</a>
+          <a href="https://linkedin.com/company/vihang-club" target="_blank" class="social-link">LI</a>
+          <a href="https://youtube.com/@vihangclub" target="_blank" class="social-link">YT</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-heading">NAVIGATION</h4>
+        <ul class="footer-links">
+          <li><a href="#about">ABOUT</a></li>
+          <li><a href="#projects">PROJECTS</a></li>
+          <li><a href="#DOCUMENTATION">DOCUMENTATION</a></li>
+          <li><a href="#milestones">ACHIEVEMENTS</a></li>
+          <li><a href="#internship">PLACEMENTS AND INTERNSHIPS</a></li>
+          <li><a href="#team">TEAM</a></li>
+          <li><a href="#gallery">GALLERY</a></li>
+          <li><a href="#contact">CONTACT</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">CONTACT</h4>
+        <div class="contact-item"><span class="contact-label">LOC</span><span class="contact-text">SSGMCE, SHEGAON<br>MAHARASHTRA, INDIA 444203</span></div>
+        <div class="contact-item"><span class="contact-label">EML</span><span class="contact-text"><a href="mailto:vihang@ssgmce.ac.in">VIHANG@SSGMCE.AC.IN</a></span></div>
+      </div>
+      <div>
+        <h4 class="footer-heading">AFFILIATIONS</h4>
+        <div class="affil-card"><span class="affil-label">PARENT INSTITUTION</span><span class="affil-text">SSGMCE, SHEGAON</span></div>
+        <div class="affil-card"><span class="affil-label">UNIVERSITY</span><span class="affil-text">SGBAU, AMRAVATI</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© <span id="year"></span> VIHANG CLUB. ALL RIGHTS RESERVED.</p>
+      <span class="footer-tagline">INNOVATE · NAVIGATE · ELEVATE</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── UTC Clock ──
+function updateClock(){
+  const t=new Date();
+  document.getElementById('utcTime').textContent='UTC: '+t.toISOString().slice(11,19);
+}
+setInterval(updateClock,1000);updateClock();
+
+// ── Nav Scroll ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);
+});
+
+// ── Mobile Nav ──
+const ham=document.getElementById('hamburger');
+const mNav=document.getElementById('mobileNav');
+ham.addEventListener('click',()=>{
+  mNav.classList.toggle('open');
+  const spans=ham.querySelectorAll('span');
+  if(mNav.classList.contains('open')){
+    spans[0].style.transform='rotate(45deg) translate(5px,5px)';
+    spans[1].style.opacity='0';
+    spans[2].style.transform='rotate(-45deg) translate(5px,-5px)';
+  }else{
+    spans.forEach(s=>{s.style.transform='';s.style.opacity=''});
+  }
+});
+function closeMobile(){mNav.classList.remove('open');}
+
+// ── Year footer ──
+document.getElementById('year').textContent=new Date().getFullYear();
+
+// ── Projects Filter ──
+function filterProjects(status,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.project-card').forEach(c=>{
+    if(status==='all'||c.dataset.status===status){
+      c.classList.remove('project-hidden');
+    }else{
+      c.classList.add('project-hidden');
+    }
+  });
+}
+
+
+</script>
+</body>
+</html>

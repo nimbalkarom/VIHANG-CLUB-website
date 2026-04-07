@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>VIHANG CLUB — TEAM</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--gold:#ffb000;--gold2:#ffd055;--gold-dim:rgba(255,176,0,0.12);--bg:#050400;--bg2:#0a0800;--bg3:#111000;--text:#f0ead8;--text-muted:#bdb49a;--text-dim:#706050;--border:rgba(255,176,0,0.12);--font-display:'Bebas Neue',sans-serif;--font-hud:'Orbitron',monospace;--font-mono:'Share Tech Mono',monospace;--font-body:'Rajdhani',sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}body{background:var(--bg);color:var(--text);font-family:var(--font-body);overflow-x:hidden;text-transform:uppercase}
+a{text-decoration:none;color:inherit}button{cursor:pointer;font-family:inherit;border:none;background:none;text-transform:uppercase}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}.fade-in.visible{opacity:1;transform:none}
+.hidden{display:none!important}
+.container{max-width:1400px;margin:0 auto;padding:0 4rem}
+@media(max-width:768px){.container{padding:0 1.5rem}}
+.section-label{font-family:var(--font-mono);font-size:.56rem;letter-spacing:.3em;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:.8rem;justify-content:center}
+.section-label::after{content:'';display:block;height:1px;width:50px;background:var(--gold);opacity:.5}
+.section-title{font-family:var(--font-display);font-size:clamp(3rem,7vw,6.5rem);line-height:.88;letter-spacing:.04em}
+.section-title .accent{color:var(--gold)}
+.btn-primary{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--bg);background:var(--gold);padding:.85rem 2rem;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:all .2s;display:inline-block}
+.btn-primary:hover{background:var(--gold2);transform:translateY(-2px)}
+.text-center{text-align:center}.mb-3{margin-bottom:3rem}.mb-2{margin-bottom:2rem}.mt-4{margin-top:4rem}
+#team{padding:7rem 0;background:var(--bg2)}
+.team-year-timeline{display:flex;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem;border:1px solid var(--border);width:fit-content;margin-left:auto;margin-right:auto}
+.year-btn{font-family:var(--font-hud);font-size:.65rem;letter-spacing:.15em;padding:.6rem 1.4rem;color:var(--text-dim);border-right:1px solid var(--border);transition:all .2s}
+.year-btn:last-child{border-right:none}
+.year-btn.active{color:var(--bg);background:var(--gold)}
+.year-btn:hover:not(.active){color:var(--gold);background:rgba(255,176,0,.06)}
+.team-cat-tabs{display:flex;justify-content:center;gap:.5rem;flex-wrap:wrap;margin-bottom:3rem}
+.team-tab{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.18em;padding:.55rem 1.3rem;border:1px solid var(--border);color:var(--text-dim);transition:all .2s}
+.team-tab.active{color:var(--bg);background:var(--gold);border-color:var(--gold)}
+.team-tab:hover:not(.active){color:var(--gold);border-color:rgba(255,176,0,.35)}
+.team-year-photo{border:1px solid var(--border);background:var(--bg3);padding:3rem;text-align:center;margin-bottom:3rem;position:relative;overflow:hidden}
+.team-year-photo::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,176,0,.04),transparent)}
+.team-photo-placeholder{display:flex;align-items:center;justify-content:center;height:220px;border:1px dashed rgba(255,176,0,.2);margin-bottom:1rem}
+.team-photo-placeholder span{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--text-dim)}
+.team-photo-caption{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;color:var(--gold)}
+.team-grid{display:grid;gap:1.2rem}
+.team-grid.mentors{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.team-grid.core{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.team-grid.members{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+.team-card{border:1px solid var(--border);background:var(--bg3);padding:1.5rem;transition:all .3s}
+.team-card:hover{border-color:rgba(255,176,0,.3);background:#181500}
+.team-avatar{width:64px;height:64px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--font-hud);font-size:1.1rem;font-weight:700;color:var(--gold);background:rgba(255,176,0,.08);margin-bottom:1rem}
+.team-name{font-family:var(--font-hud);font-size:.85rem;letter-spacing:.08em;color:var(--text);margin-bottom:.2rem}
+.team-role{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.12em;color:var(--gold)}
+.team-dept{font-family:var(--font-body);font-size:.8rem;font-weight:300;color:var(--text-dim);margin-top:.2rem}
+.team-links{display:flex;gap:.5rem;margin-top:.8rem}
+.team-link{width:30px;height:30px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:.42rem;color:var(--text-dim);transition:all .2s;cursor:pointer}
+.team-link:hover{color:var(--gold);border-color:var(--gold)}
+.member-card{border:1px solid var(--border);background:var(--bg3);padding:1rem;text-align:center;transition:all .3s}
+.member-card:hover{border-color:rgba(255,176,0,.3);background:#181500}
+.member-avatar{width:44px;height:44px;border:1px solid rgba(255,176,0,.4);font-family:var(--font-hud);font-size:.8rem;font-weight:700;color:var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(255,176,0,.05);margin:0 auto .6rem}
+.member-name{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.1em;color:var(--text)}
+.member-role{font-family:var(--font-body);font-size:.75rem;font-weight:300;color:var(--text-dim);margin-top:.15rem}
+.team-cta{margin-top:4rem;border:1px dashed rgba(255,176,0,.3);background:rgba(255,176,0,.03);padding:2.5rem;text-align:center}
+.team-cta p{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.15em;color:var(--text-dim);margin-bottom:1.2rem}
+
+/* ───── NAV ───── */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:1.6rem 4rem;transition:all .4s;}
+nav.scrolled{padding:.9rem 4rem;background:rgba(5,4,0,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-logo{display:flex;align-items:center;gap:.7rem;text-decoration:none}
+.nav-logo-icon{width:28px;height:28px;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;position:relative;}
+.nav-logo-icon::after{content:'';position:absolute;inset:3px;background:var(--gold);clip-path:polygon(50% 0,100% 100%,0 100%);animation:pulseLogo 3s ease-in-out infinite;}
+@keyframes pulseLogo{0%,100%{opacity:1}50%{opacity:.6}}
+.nav-logo-text{font-family:var(--font-hud);font-size:1.2rem;font-weight:700;letter-spacing:.2em;color:var(--text);}
+.nav-logo-text span{color:var(--gold)}
+.nav-links{display:flex;background:var(--gold-dim);border:1px solid var(--border);}
+.nav-links a{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.18em;padding:.6rem 1.1rem;border-right:1px solid var(--border);color:var(--text-dim);transition:all .2s;display:block;}
+.nav-links a:last-child{border-right:none}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);background:rgba(255,176,0,.06)}
+.nav-cta{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.18em;color:var(--bg);background:var(--gold);padding:.55rem 1.2rem;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));transition:all .2s;}
+.nav-cta:hover{background:var(--gold2);transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:4px;cursor:pointer;background:none;border:none;}
+.hamburger span{width:22px;height:1.5px;background:var(--gold);display:block;transition:all .3s;}
+.mobile-nav{display:none;position:fixed;top:60px;left:0;right:0;background:rgba(5,4,0,.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);flex-direction:column;z-index:899;}
+.mobile-nav a{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.18em;padding:.8rem 1.5rem;border-bottom:1px solid rgba(255,176,0,.05);color:var(--text-dim);transition:all .2s;display:block;}
+.mobile-nav a:hover{color:var(--gold);background:rgba(255,176,0,.06)}
+.mobile-nav .nav-cta{margin:1rem 1.5rem 1.5rem;display:block;text-align:center;padding:.8rem;}
+@media(max-width:900px){nav{padding:1rem 1.5rem}nav.scrolled{padding:.8rem 1.5rem}.nav-links,.nav-cta-wrap{display:none}.hamburger{display:flex}.mobile-nav.open{display:flex}}
+/* page top padding for fixed nav */
+body>section:first-of-type, body>div:first-of-type{padding-top:0}
+section{scroll-margin-top:80px}
+
+.team-card img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border:1px solid var(--border);
+  margin-bottom:1rem;
+}
+
+/* ───── FOOTER ───── */
+footer{background:var(--bg);border-top:1px solid var(--border)}
+.footer-inner{padding:5rem 0 0}
+.footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:3rem;padding-bottom:4rem}
+.footer-brand .nav-logo{margin-bottom:1.5rem;display:inline-flex}
+.footer-desc{font-family:var(--font-mono);font-size:.72rem;color:var(--text-dim);line-height:1.7;margin-bottom:1.5rem}
+.social-links{display:flex;gap:.6rem}
+.social-link{width:36px;height:36px;border:1px solid rgba(255,176,0,.2);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:.48rem;letter-spacing:.05em;color:var(--text-dim);transition:all .2s;}
+.social-link:hover{color:var(--gold);border-color:var(--gold);background:rgba(255,176,0,.06)}
+.footer-heading{font-family:var(--font-mono);font-size:.58rem;font-weight:700;letter-spacing:.25em;color:var(--gold);margin-bottom:1.5rem;}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:.7rem}
+.footer-links a{font-family:var(--font-mono);font-size:.7rem;color:var(--text-dim);transition:color .2s;}
+.footer-links a:hover{color:var(--gold)}
+.contact-item{display:flex;align-items:flex-start;gap:.8rem;margin-bottom:1rem}
+.contact-label{font-family:var(--font-mono);font-size:.48rem;color:var(--gold);margin-top:.1rem;min-width:2rem}
+.contact-text{font-family:var(--font-mono);font-size:.7rem;color:var(--text-dim);line-height:1.5}
+.contact-text a{color:var(--text-dim);transition:color .2s}
+.contact-text a:hover{color:var(--gold)}
+.affil-card{padding:1rem;border:1px solid var(--border);background:var(--bg3);margin-bottom:.8rem;}
+.affil-label{font-family:var(--font-mono);font-size:.48rem;letter-spacing:.15em;color:var(--gold);display:block;margin-bottom:.2rem}
+.affil-text{font-family:var(--font-mono);font-size:.7rem;color:var(--text-muted)}
+.footer-bottom{border-top:1px solid var(--border);padding:1.5rem 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-copy{font-family:var(--font-mono);font-size:.58rem;color:#4a3d2a}
+.footer-tagline{font-family:var(--font-mono);font-size:.52rem;letter-spacing:.3em;color:var(--gold)}
+@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;gap:2rem}}
+@media(max-width:600px){.footer-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}}
+
+</style>
+</head>
+<body>
+<!-- ═══════════════ NAV ═══════════════ -->
+<nav id="navbar">
+  <a href="http://127.0.0.1:5500/hero.html" class="nav-logo">
+    <div class="nav-logo-icon"></div>
+    <span class="nav-logo-text">VIH<span>A</span>NG CLUB</span>
+  </a>
+  <div class="nav-links">
+   <a href="http://127.0.0.1:5500/about.html">ABOUT</a>
+    <a href="http://127.0.0.1:5500/projects.html">PROJECTS</a>
+    <a href="http://127.0.0.1:5500/documentation.html">DOCUMENTATION</a>
+    <a href="http://127.0.0.1:5500/achievements.html">ACHIEVEMENTS</a>
+    <a href="http://127.0.0.1:5500/internship.html">PLACEMENTS AND INTERNSHIPS</a>
+    <a href="http://127.0.0.1:5500/team.html">TEAM</a>
+    <a href="http://127.0.0.1:5500/gallery.html">GALLERY</a>
+    <a href="http://127.0.0.1:5500/contact.html">CONTACT</a>
+  </div>
+  
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+   <a href="http://127.0.0.1:5500/about.html" onclick="closeMobile()">ABOUT</a>
+  <a href="http://127.0.0.1:5500/projects.html" onclick="closeMobile()">PROJECTS</a>
+  <a href="http://127.0.0.1:5500/documentation.html" onclick="closeMobile()">DOCUMENTATION</a>
+  <a href="http://127.0.0.1:5500/achievements.html" onclick="closeMobile()">ACHIEVEMENTS</a>
+  <a href="http://127.0.0.1:5500/internship.html" onclick="closeMobile()">PLACEMENTS AND INTERNSHIPS</a>
+  <a href="http://127.0.0.1:5500/team.html" onclick="closeMobile()">TEAM</a>
+  <a href="http://127.0.0.1:5500/gallery.html" onclick="closeMobile()">IN THE FIELD</a>
+  <a href="http://127.0.0.1:5500/contact.html" onclick="closeMobile()">CONTACT</a>
+  <a href="https://forms.gle/pg4QRuGdMAZSpAg4A" target="_blank" class="nav-cta">JOIN NOW →</a>
+</div>
+
+
+<!-- ═══════════════ TEAM ═══════════════ -->
+<section id="team">
+  <div class="container">
+    <div class="fade-in text-center mb-3">
+      <p class="section-label" style="justify-content:center">06 / TEAM</p>
+      <h2 class="section-title">PEOPLE OF<br><span class="accent">VIHANG</span></h2>
+    </div>
+
+    <!-- Year Timeline -->
+    <div class="text-center mb-2">
+      <p style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;color:var(--text-dim);margin-bottom:.8rem">YEAR</p>
+      <div class="team-year-timeline">
+        <button class="year-btn active" onclick="selectYear('2026',this)">2025</button>
+        <!-- <button class="year-btn" onclick="selectYear('2025',this)">2025</button>
+        <button class="year-btn" onclick="selectYear('2024',this)">2024</button>
+        <button class="year-btn" onclick="selectYear('2023',this)">2023</button> -->
+      </div>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="team-cat-tabs">
+      <button class="team-tab" onclick="selectTeamTab('mentor',this)">MENTOR</button>
+      <button class="team-tab active" onclick="selectTeamTab('core',this)">TEAM</button>
+      <!-- <button class="team-tab" onclick="selectTeamTab('member',this)">MEMBER</button> -->
+    </div>
+
+    <!-- Year Group Photo -->
+    <!-- <div class="team-year-photo fade-in" id="teamYearPhoto">
+      <div class="team-photo-placeholder">
+       <span id="yearPhotoLabel">VIHANG CLUB — BATCH 2026</span> 
+        <img src="./team img/WhatsApp Image 2026-03-31 at 4.18.45 PM.jpeg" alt="">
+      
+      </div>
+      <p class="team-photo-caption" id="yearPhotoCaption">FULL TEAM PHOTO · 2026 BATCH · SSGMCE SHEGAON</p>
+    </div> -->
+
+    <!-- Mentor Tab -->
+
+    <div id="tab-mentor" class="hidden">
+      <div class="team-grid mentors">
+       <div class="team-card fade-in"style="animation-delay:.1s">
+          <!-- <div class="team-avatar">RS</div> -->
+          <img src="./team img/sbsomanisir.jpg" alt="">
+          <div class="team-name">Dr. S. B. Somani</div>
+          <div class="team-role">Principal</div>
+          <div class="team-dept">SSGMCE,shegaon</div>
+          <div class="team-links">
+            <!-- <span class="team-link">LI</span>
+            <span class="team-link">ML</span> -->
+          </div>
+        </div>
+        <div class="team-card fade-in" style="animation-delay:.1s">
+          <!-- <div class="team-avatar">AD</div> -->
+          <img src="./team img/jmpatilsir.jpg" alt="">
+          <div class="team-name">Dr. J. M. Patil</div>
+          <div class="team-role">Incharge of Drone Club</div>
+          <div class="team-dept"> HOD of CSE</div>
+          <div class="team-links">
+            <!-- <span class="team-link">LI</span>
+            <span class="team-link">ML</span> -->
+          </div>
+        </div>
+        <div class="team-card fade-in" style="animation-delay:.2s">
+          <!-- <div class="team-avatar">PK</div> -->
+          <img src="./team img/sbpagrutsir.jpg" alt="">
+          <div class="team-name">Prof.S. B. Pagrut</div>
+          <div class="team-role">Faculty Adviser of Drone Club</div>
+          <div class="team-dept">AP CSE</div>
+          <div class="team-links">
+            <!-- <span class="team-link">LI</span>
+            <span class="team-link">ML</span> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Core Team Tab (default) -->
+     
+    <div id="tab-core">
+      <div class="team-year-photo fade-in" id="teamYearPhoto">
+      <div class="team-photo-placeholder">
+       <!-- <span id="yearPhotoLabel">VIHANG CLUB — BATCH 2026</span>  -->
+        <img src="./team img/WhatsApp Image 2026-03-31 at 4.18.45 PM.jpeg" alt="">
+      
+      </div>
+      <p class="team-photo-caption" id="yearPhotoCaption">FULL TEAM PHOTO · 2026 BATCH · SSGMCE SHEGAON</p>
+    </div>
+      <div class="team-grid core">
+        <div class="team-card fade-in">
+          <!-- <div class="team-avatar">AP</div> -->
+           <img src="./team img/kunalp.jpeg" alt="">
+          <div class="team-name">Kunal Pisudde</div>
+          <div class="team-role">Team Lead</div> 
+          <div class="team-dept">FINAL YEAR — MECHANICAL</div>
+          <!-- <div class="team-links"><span class="team-link">LI</span><span class="team-link">GH</span></div> -->
+           <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+           </div>
+        </div>
+        <div class="team-card fade-in" style="animation-delay:.08s">
+          <!-- <div class="team-avatar">SK</div> -->
+          <img src="./team img/pratik k.jpeg" alt="">
+          <div class="team-name">Pratik Khadse</div>
+          <div class="team-role">Associate Team Lead</div>
+          <div class="team-dept">THIRD YEAR — E&TC</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+        <div class="team-card fade-in" style="animation-delay:.16s">
+          <!-- <div class="team-avatar">RJ</div> -->
+          <img src="" alt="">
+          <div class="team-name">Manthan Kolte</div>
+          <div class="team-role">TECHNICAL LEAD</div>
+          <div class="team-dept">THIRD YEAR — CSE</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+          </div>
+          <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="./team img/r payghan.jpeg" alt="">
+          <div class="team-name">Rushikesh Payghan</div>
+          <div class="team-role">Project Manager</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+        <div class="team-card fade-in" style="animation-delay:.24s">
+          <!-- <div class="team-avatar">PM</div> -->
+          <img src="" alt="">
+          <div class="team-name">Pranav Harne</div>
+          <div class="team-role">Media Head</div>
+          <div class="team-dept">THIRD YEAR — MECHANICAL</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+          </div>
+        <div class="team-card fade-in" style="animation-delay:.32s">
+          <!-- <div class="team-avatar">VS</div> -->
+          <img src="./team img/atharv.jpeg" alt="">
+          <div class="team-name">Atharva Raut</div>
+          <div class="team-role">Designing Head</div>
+          <div class="team-dept">FINAL YEAR — E&TC</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+          </div>
+        <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="" alt="">
+          <div class="team-name">Hrishikesh Kakade</div>
+          <div class="team-role">Research Associate</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+          </div>
+        <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="" alt="">
+          <div class="team-name">Atharva Ingle</div>
+          <div class="team-role">Production Head</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+          </div>
+        <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="./team img/Sahil sir.jpg.jpeg" alt="">
+          <div class="team-name">Sahil Khandare</div>
+          <div class="team-role">Electronics Head</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>     
+        </div>
+       
+        <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="" alt="">
+          <div class="team-name">Nivrutti Raut</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+            <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="./team img/parth.jpeg" alt="">
+          <div class="team-name">Parth Deshmukh</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+            <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="" alt="">
+          <div class="team-name">Vaibhav Udapure</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+            <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="" alt="">
+          <div class="team-name">Arpit There</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+            <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="" alt="">
+          <div class="team-name">Aditya Vaidya</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+            <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="./team img/amitesh.jpeg" alt="">
+          <div class="team-name">Amitesh Chavhan</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+            <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="" alt="">
+          <div class="team-name">Amol Gulhane</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+            <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="./team img/pavank.jpeg" alt="">
+          <div class="team-name">Pavan Kajale</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+            <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="./team img/pd.png" alt="">
+          <div class="team-name">Piyush K Dawange</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+            <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="./team img/omnimbalkar.jpeg" alt="">
+          <div class="team-name">Om Nimbalkar</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+            <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="" alt="">
+          <div class="team-name">Gaurav Ingle</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+            <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="" alt="">
+          <div class="team-name">Aniruddh Pote</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+            <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="" alt="">
+          <div class="team-name">Sanchit Deshmukh</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+            <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="./team img/gtupkar.jpeg" alt="">
+          <div class="team-name">Ganesh Tupkar</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+            <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="./team img/pratikshab.jpeg" alt="">
+          <div class="team-name">Pratiksha Bawaskar</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+         <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="./team img/vdamdhar.jpeg" alt="">
+          <div class="team-name">Vedanti Damdhar</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+         <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="./team img/Pvairale.jpeg" alt="">
+          <div class="team-name"></div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+         <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="./team img/sd.jpeg" alt="">
+          <div class="team-name">Shreya Deshmukh</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+         <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="./team img/bbal.jpeg" alt="">
+          <div class="team-name">Bhumika Bal</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+         <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="" alt="">
+          <div class="team-name">Riddhi Ambere</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+         <div class="team-card fade-in" style="animation-delay:.4s">
+          <!-- <div class="team-avatar">AR</div> -->
+          <img src="./team img/iumale.jpeg" alt="">
+          <div class="team-name">Ishali Umale</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links">
+           <a href="https://www.linkedin.com/in/kunal-m-pisudde-6589932b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="team-link">LI</a>
+            <a href="https://github.com/rajesh-sharma" target="_blank" class="team-link">GH</a>
+          </div>
+        </div>
+        
+         <!-- <div class="team-card fade-in" style="animation-delay:.4s">
+           <div class="team-avatar">AR</div> 
+          <img src="" alt="">
+          <div class="team-name">piyush dawange</div>
+          <div class="team-role">Member</div>
+          <div class="team-dept">THIRD YEAR — IT</div>
+          <div class="team-links"><span class="team-link">LI</span><span class="team-link">GH</span></div>
+        </div>
+        </div> -->
+        
+      </div>
+    </div>
+
+    <!-- Members Tab -->
+    <div id="tab-member" class="hidden">
+      <div class="team-grid members">
+        <div class="member-card fade-in"><div class="member-avatar">RV</div><div class="member-name">RAHUL VERMA</div><div class="member-role">PILOT TEAM</div></div>
+        <div class="member-card fade-in" style="animation-delay:.05s"><div class="member-avatar">DS</div><div class="member-name">DEEPIKA SHAH</div><div class="member-role">ELECTRONICS TEAM</div></div>
+        <div class="member-card fade-in" style="animation-delay:.1s"><div class="member-avatar">AK</div><div class="member-name">AMIT KUMAR</div><div class="member-role">SOFTWARE TEAM</div></div>
+        <div class="member-card fade-in" style="animation-delay:.15s"><div class="member-avatar">NG</div><div class="member-name">NEHA GUPTA</div><div class="member-role">DESIGN TEAM</div></div>
+        <div class="member-card fade-in" style="animation-delay:.2s"><div class="member-avatar">SP</div><div class="member-name">SANJAY PATEL</div><div class="member-role">ASSEMBLY TEAM</div></div>
+        <div class="member-card fade-in" style="animation-delay:.25s"><div class="member-avatar">KR</div><div class="member-name">KAVITA REDDY</div><div class="member-role">DOCUMENTATION</div></div>
+        <div class="member-card fade-in" style="animation-delay:.3s"><div class="member-avatar">AN</div><div class="member-name">ARJUN NAIR</div><div class="member-role">TESTING TEAM</div></div>
+        <div class="member-card fade-in" style="animation-delay:.35s"><div class="member-avatar">MI</div><div class="member-name">MEERA IYER</div><div class="member-role">RESEARCH TEAM</div></div>
+      </div>
+    </div>
+
+    <!-- Join CTA -->
+    <div class="team-cta mt-4 fade-in">
+      <p>WANT TO BE PART OF THE VIHANG CLUB FAMILY?</p>
+      <a href="https://forms.gle/pg4QRuGdMAZSpAg4A" target="_blank" class="btn-primary">APPLY FOR MEMBERSHIP →</a>
+    </div>
+  </div>
+</section>
+<script>
+const yearData={'2026':{photo:'VIHANG CLUB — BATCH 2026',caption:'FULL TEAM PHOTO · 2026 BATCH · SSGMCE SHEGAON'},'2025':{photo:'VIHANG CLUB — BATCH 2025',caption:'FULL TEAM PHOTO · 2025 BATCH · SSGMCE SHEGAON'},'2024':{photo:'VIHANG CLUB — BATCH 2024',caption:'FULL TEAM PHOTO · 2024 BATCH · SSGMCE SHEGAON'},'2023':{photo:'VIHANG CLUB — BATCH 2023 (FOUNDING)',caption:'FOUNDING BATCH PHOTO · 2023 · SSGMCE SHEGAON'}};
+function selectYear(yr,btn){document.querySelectorAll('.year-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');const d=yearData[yr];document.getElementById('yearPhotoLabel').textContent=d.photo;document.getElementById('yearPhotoCaption').textContent=d.caption;}
+function selectTeamTab(tab,btn){document.querySelectorAll('.team-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');['mentor','core','member'].forEach(t=>{const el=document.getElementById('tab-'+t);if(t===tab){el.classList.remove('hidden');}else{el.classList.add('hidden');}});}
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target);}});},{threshold:.12});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+</script>
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">
+          <div class="nav-logo-icon"></div>
+          <span class="nav-logo-text">VIH<span>A</span>NG CLUB</span>
+        </a>
+        <p class="footer-desc">PIONEERING HUB FOR DRONE RESEARCH AND DEVELOPMENT AT SSGMCE, SHEGAON.</p>
+        <div class="social-links">
+          <a href="https://instagram.com/vihang_ssgmce" target="_blank" class="social-link">IG</a>
+          <a href="https://linkedin.com/company/vihang-club" target="_blank" class="social-link">LI</a>
+          <a href="https://youtube.com/@vihangclub" target="_blank" class="social-link">YT</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-heading">NAVIGATION</h4>
+        <ul class="footer-links">
+          <li><a href="#about">ABOUT</a></li>
+          <li><a href="#projects">PROJECTS</a></li>
+          <li><a href="#DOCUMENTATION">DOCUMENTATION</a></li>
+          <li><a href="#milestones">ACHIEVEMENTS</a></li>
+          <li><a href="#internship">PLACEMENTS AND INTERNSHIPS</a></li>
+          <li><a href="#team">TEAM</a></li>
+          <li><a href="#gallery">GALLERY</a></li>
+          <li><a href="#contact">CONTACT</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">CONTACT</h4>
+        <div class="contact-item"><span class="contact-label">LOC</span><span class="contact-text">SSGMCE, SHEGAON<br>MAHARASHTRA, INDIA 444203</span></div>
+        <div class="contact-item"><span class="contact-label">EML</span><span class="contact-text"><a href="mailto:vihang@ssgmce.ac.in">VIHANG@SSGMCE.AC.IN</a></span></div>
+      </div>
+      <div>
+        <h4 class="footer-heading">AFFILIATIONS</h4>
+        <div class="affil-card"><span class="affil-label">PARENT INSTITUTION</span><span class="affil-text">SSGMCE, SHEGAON</span></div>
+        <div class="affil-card"><span class="affil-label">UNIVERSITY</span><span class="affil-text">SGBAU, AMRAVATI</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© <span id="year"></span> VIHANG CLUB. ALL RIGHTS RESERVED.</p>
+      <span class="footer-tagline">INNOVATE · NAVIGATE · ELEVATE</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── UTC Clock ──
+function updateClock(){
+  const t=new Date();
+  document.getElementById('utcTime').textContent='UTC: '+t.toISOString().slice(11,19);
+}
+setInterval(updateClock,1000);updateClock();
+
+// ── Nav Scroll ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);
+});
+
+// ── Mobile Nav ──
+const ham=document.getElementById('hamburger');
+const mNav=document.getElementById('mobileNav');
+ham.addEventListener('click',()=>{
+  mNav.classList.toggle('open');
+  const spans=ham.querySelectorAll('span');
+  if(mNav.classList.contains('open')){
+    spans[0].style.transform='rotate(45deg) translate(5px,5px)';
+    spans[1].style.opacity='0';
+    spans[2].style.transform='rotate(-45deg) translate(5px,-5px)';
+  }else{
+    spans.forEach(s=>{s.style.transform='';s.style.opacity=''});
+  }
+});
+function closeMobile(){mNav.classList.remove('open');}
+
+// ── Year footer ──
+document.getElementById('year').textContent=new Date().getFullYear();
+
+// ── Projects Filter ──
+function filterProjects(status,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.project-card').forEach(c=>{
+    if(status==='all'||c.dataset.status===status){
+      c.classList.remove('project-hidden');
+    }else{
+      c.classList.add('project-hidden');
+    }
+  });
+}
+
+
+</script>
+</body>
+</html>
