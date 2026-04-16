@@ -64,7 +64,7 @@ button{cursor:pointer;font-family:inherit;border:none;background:none;text-trans
 nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:1.6rem 4rem;transition:all .4s;}
 nav.scrolled{padding:.9rem 4rem;background:rgba(5,4,0,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
 .nav-logo{display:flex;align-items:center;gap:.7rem;text-decoration:none}
-.nav-logo-icon{width:28px;height:28px;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;position:relative;}
+.nav-logo-icon{width:50px;height:50px;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;position:relative;}
 .nav-logo-icon::after{content:'';position:absolute;inset:3px;background:var(--gold);clip-path:polygon(50% 0,100% 100%,0 100%);animation:pulseLogo 3s ease-in-out infinite;}
 @keyframes pulseLogo{0%,100%{opacity:1}50%{opacity:.6}}
 .nav-logo-text{font-family:var(--font-hud);font-size:1.2rem;font-weight:700;letter-spacing:.2em;color:var(--text);}
@@ -119,19 +119,21 @@ footer{background:var(--bg);border-top:1px solid var(--border)}
 <body>
 <!-- ═══════════════ NAV ═══════════════ -->
 <nav id="navbar">
-  <a href="https:./index.html" class="nav-logo">
-    <div class="nav-logo-icon"></div>
-    <span class="nav-logo-text">VIH<span>A</span>NG CLUB</span>
+  <a href="http://127.0.0.1:5500/index.html" class="nav-logo">
+   <div class="nav-logo-icon">
+    <img src="./dron gallery photo/vihang logo.jpg" alt="Vihang Logo" style="height:60px;">
+</div>
+<span class="nav-logo-text">VIH<span>A</span>NG CLUB</span>
   </a>
   <div class="nav-links">
-    <a href="https:./about.html">ABOUT</a>
-    <a href="https:./projects.html">PROJECTS</a>
-    <a href="https:./documentation.html">DOCUMENTATION</a>
-    <a href="https:./achievements.html">ACHIEVEMENTS</a>
-    <a href="https:./internship.html">PLACEMENTS AND INTERNSHIPS</a>
-    <a href="https:./team.html">TEAM</a>
-    <a href="https:./gallery.html">GALLERY</a>
-    <a href="https:./contact.html">CONTACT</a>
+    <a href="http://127.0.0.1:5500/about.html">ABOUT</a>
+    <a href="http://127.0.0.1:5500/projects.html">PROJECTS</a>
+    <a href="http://127.0.0.1:5500/documentation.html">DOCUMENTATION</a>
+    <a href="http://127.0.0.1:5500/achievements.html">ACHIEVEMENTS</a>
+    <a href="http://127.0.0.1:5500/internship.html">PLACEMENTS AND INTERNSHIPS</a>
+    <a href="http://127.0.0.1:5500/team.html">TEAM</a>
+    <a href="http://127.0.0.1:5500/gallery.html">GALLERY</a>
+    <a href="http://127.0.0.1:5500/contact.html">CONTACT</a>
   </div>
   
   <button class="hamburger" id="hamburger" aria-label="Toggle menu">
@@ -139,15 +141,15 @@ footer{background:var(--bg);border-top:1px solid var(--border)}
   </button>
 </nav>
 <div class="mobile-nav" id="mobileNav">
-  <a href="https:./about.html" onclick="closeMobile()">ABOUT</a>
-  <a href="https:./projects.html" onclick="closeMobile()">PROJECTS</a>
-  <a href="https:./documentation.html" onclick="closeMobile()">DOCUMENTATION</a>
-  <a href="https:./achievements.html" onclick="closeMobile()">ACHIEVEMENTS</a>
-  <a href="https:./internship.html" onclick="closeMobile()">PLACEMENTS AND INTERNSHIPS</a>
-  <a href="https:./team.html" onclick="closeMobile()">TEAM</a>
-  <a href="https:./gallery.html" onclick="closeMobile()">IN THE FIELD</a>
-  <a href="https:./contact.html" onclick="closeMobile()">CONTACT</a>
-  
+   <a href="http://127.0.0.1:5500/about.html" onclick="closeMobile()">ABOUT</a>
+  <a href="http://127.0.0.1:5500/projects.html" onclick="closeMobile()">PROJECTS</a>
+  <a href="http://127.0.0.1:5500/documentation.html" onclick="closeMobile()">DOCUMENTATION</a>
+  <a href="http://127.0.0.1:5500/achievements.html" onclick="closeMobile()">ACHIEVEMENTS</a>
+  <a href="http://127.0.0.1:5500/internship.html" onclick="closeMobile()">PLACEMENTS AND INTERNSHIPS</a>
+  <a href="http://127.0.0.1:5500/team.html" onclick="closeMobile()">TEAM</a>
+  <a href="http://127.0.0.1:5500/gallery.html" onclick="closeMobile()">IN THE FIELD</a>
+  <a href="http://127.0.0.1:5500/contact.html" onclick="closeMobile()">CONTACT</a>
+  <a href="https://forms.gle/pg4QRuGdMAZSpAg4A" target="_blank" class="nav-cta">JOIN NOW →</a>
 </div>
 <section id="hero">
   <!-- Background Video -->
